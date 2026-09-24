@@ -1,0 +1,40 @@
+name: macos_glass
+description: >-
+  macOS 26/27 (Liquid Glass) widgets for Flutter desktop apps — a System
+  Settings-style window with a translucent sidebar, grouped forms, glass
+  toolbar buttons, pill-knob switches, menus, sheets and alerts.
+version: 0.1.0
+homepage: https://github.com/mostafijur566/macos_glass
+repository: https://github.com/mostafijur566/macos_glass
+issue_tracker: https://github.com/mostafijur566/macos_glass/issues
+topics:
+  - macos
+  - desktop
+  - ui
+  - widgets
+  - design-system
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.38.0"
+
+platforms:
+  macos:
+  windows:
+  linux:
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Native window chrome: transparent title bar, sidebar blur, toolbar passthrough.
+  macos_window_utils: ^1.9.0
+  # SF-style glyphs used by the widgets (chevrons, check marks, search).
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: false
