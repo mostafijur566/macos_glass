@@ -72,7 +72,7 @@ class GlassFormSection extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(child: Text(title ?? '', style: t.sectionTitle)),
-                if (trailing != null) trailing!,
+                ?trailing,
               ],
             ),
           ),
