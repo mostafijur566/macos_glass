@@ -7,3 +7,7 @@
 ## 0.1.0
 
 - First release: window, sidebar, page, forms, buttons, switch, popup, segmented control, date picker, alerts, sheets, tooltip, spinner.
+
+## 0.1.2
+
+- README: install from pub.dev.

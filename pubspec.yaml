@@ -1,6 +1,6 @@
 name: macos_glass
 description: "macOS 26 Liquid Glass widgets for Flutter desktop: System Settings-style window, translucent sidebar, grouped forms, switches, menus and sheets."
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/mostafijur566/macos_glass
 repository: https://github.com/mostafijur566/macos_glass
 issue_tracker: https://github.com/mostafijur566/macos_glass/issues
