@@ -63,51 +63,77 @@ class _GlassTextFieldState extends State<GlassTextField> {
   Widget build(BuildContext context) {
     final t = GlassTheme.of(context);
     final multiline = widget.maxLines == null || (widget.maxLines ?? 1) > 1;
-    final radius = BorderRadius.circular(widget.capsule ? 999 : (multiline ? 9 : 8));
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 120),
-      decoration: BoxDecoration(
-        borderRadius: radius,
-        boxShadow: _focused
-            ? [BoxShadow(color: t.accent.withValues(alpha: 0.45), spreadRadius: 3)]
-            : null,
+    // The sidebar search field is a rounded rect (not a full capsule) with
+    // a faint fill, like System Settings.
+    final r = widget.capsule ? 10.0 : (multiline ? 9.0 : 8.0);
+    final radius = BorderRadius.circular(r);
+    final fill = widget.capsule
+        ? (t.isDark ? const Color(0x14FFFFFF) : const Color(0x0D000000))
+        : t.fieldFill;
+    final field = CupertinoTextField(
+      controller: widget.controller,
+      focusNode: _focus,
+      autofocus: widget.autofocus,
+      placeholder: widget.placeholder,
+      onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      keyboardType: widget.keyboardType,
+      inputFormatters: widget.inputFormatters,
+      textAlign: widget.textAlign,
+      enabled: widget.enabled,
+      cursorColor: t.accent,
+      cursorWidth: 1.5,
+      style: t.body,
+      placeholderStyle: t.body.copyWith(
+        color: widget.capsule ? t.secondaryLabel : t.tertiaryLabel,
       ),
-      child: CupertinoTextField(
-        controller: widget.controller,
-        focusNode: _focus,
-        autofocus: widget.autofocus,
-        placeholder: widget.placeholder,
-        onChanged: widget.onChanged,
-        onSubmitted: widget.onSubmitted,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
-        keyboardType: widget.keyboardType,
-        inputFormatters: widget.inputFormatters,
-        textAlign: widget.textAlign,
-        enabled: widget.enabled,
-        cursorColor: t.accent,
-        cursorWidth: 1.5,
-        style: t.body,
-        placeholderStyle: t.body.copyWith(color: t.tertiaryLabel),
-        padding: EdgeInsets.symmetric(
-          horizontal: widget.capsule ? 10 : 9,
-          vertical: multiline ? 7 : 5,
-        ),
-        prefix: widget.prefixIcon == null
-            ? null
-            : Padding(
-                padding: const EdgeInsetsDirectional.only(start: 9),
-                child: Icon(widget.prefixIcon, size: 13, color: t.secondaryLabel),
+      padding: EdgeInsets.symmetric(
+        horizontal: widget.capsule ? 6 : 9,
+        vertical: multiline ? 7 : (widget.capsule ? 6 : 5),
+      ),
+      prefix: widget.prefixIcon == null
+          ? null
+          : Padding(
+              padding: const EdgeInsetsDirectional.only(start: 8),
+              child: Icon(widget.prefixIcon, size: 14, color: t.secondaryLabel),
+            ),
+      decoration: BoxDecoration(
+        color: fill,
+        borderRadius: radius,
+        border: Border.all(color: t.fieldBorder, width: 0.6),
+      ),
+    );
+    // macOS draws the focus ring as a stroke *outside* the field; the field
+    // itself keeps its normal fill. (A shadow would bleed through the
+    // translucent fill and tint the whole field blue.)
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        field,
+        Positioned(
+          left: -3,
+          top: -3,
+          right: -3,
+          bottom: -3,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              opacity: _focused ? 1 : 0,
+              duration: const Duration(milliseconds: 120),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(r + 3),
+                  border: Border.all(
+                    color: t.accent.withValues(alpha: t.isDark ? 0.75 : 0.55),
+                    width: 3.5,
+                  ),
+                ),
               ),
-        decoration: BoxDecoration(
-          color: widget.capsule ? t.controlFill : t.fieldFill,
-          borderRadius: radius,
-          border: Border.all(
-            color: _focused ? t.accent : t.fieldBorder,
-            width: _focused ? 1 : 0.6,
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

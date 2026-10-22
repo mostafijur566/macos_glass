@@ -62,7 +62,7 @@ class _GlassSidebarState extends State<GlassSidebar> {
         const SizedBox(height: kGlassTitlebarHeight),
         if (widget.searchPlaceholder != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
             child: GlassTextField(
               capsule: true,
               placeholder: widget.searchPlaceholder,
@@ -110,23 +110,27 @@ class _SidebarRow extends StatelessWidget {
         builder: (context, hovered, pressed) {
           return AnimatedContainer(
             duration: const Duration(milliseconds: 90),
-            height: 30,
+            height: 32,
             padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              color: selected ? t.accent : (hovered ? t.hover : null),
+              // System Settings marks the selection with a neutral grey pill;
+              // the label keeps its normal colour.
+              color: selected
+                  ? (t.isDark ? const Color(0x1FFFFFFF) : const Color(0x14000000))
+                  : (hovered ? t.hover : null),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
-                GlassIconTile(icon: item.icon, color: item.color, size: 20),
-                const SizedBox(width: 9),
+                GlassIconTile(icon: item.icon, color: item.color, size: 22),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     item.label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: t.body.copyWith(
-                      color: selected ? t.onAccent : t.label,
+                      color: t.label,
                       fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
                     ),
                   ),
