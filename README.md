@@ -26,7 +26,7 @@ dependencies:
   macos_glass:
     git:
       url: https://github.com/mostafijur566/macos_glass.git
-      ref: v0.1.0
+      ref: v0.1.1
 ```
 
 Minimum: Flutter 3.38, macOS deployment target 10.14.6 (Flutter's default 12.0 is fine).
