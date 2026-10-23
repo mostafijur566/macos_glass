@@ -23,10 +23,10 @@ From GitHub:
 
 ```yaml
 dependencies:
-  macos_glass: ^0.1.2
+  macos_glass: ^0.1.3
 ```
 
-Minimum: Flutter 3.38, macOS deployment target 10.14.6 (Flutter's default 12.0 is fine).
+Minimum: Flutter 3.35 (Dart 3.9), macOS deployment target 10.14.6 (Flutter's default 12.0 is fine).
 
 ## Quick start
 

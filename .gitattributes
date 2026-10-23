@@ -1,0 +1,5 @@
+# Keep LF in the repo on every OS (Windows checkouts used to mark every file as changed).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ttf binary
