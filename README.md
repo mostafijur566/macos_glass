@@ -1,9 +1,23 @@
 # macos_glass
 
+[![pub package](https://img.shields.io/pub/v/macos_glass.svg)](https://pub.dev/packages/macos_glass)
 [![CI](https://github.com/mostafijur566/macos_glass/actions/workflows/ci.yml/badge.svg)](https://github.com/mostafijur566/macos_glass/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/demo-try%20it%20live-007AFF.svg)](https://mostafijur566.github.io/macos_glass/)
 
 **macOS 26 / 27 ("Liquid Glass") widgets for Flutter desktop apps** — built to look like today's **System Settings**, not the 2020 Big Sur design most macOS packages still follow.
+
+### [▶ Try every widget live in your browser](https://mostafijur566.github.io/macos_glass/)
+
+The demo lets you click through every widget, switch light/dark and accent colours, and copy the Dart code for each example.
+
+![System Settings Sharing pane rebuilt with macos_glass, light mode](https://raw.githubusercontent.com/mostafijur566/macos_glass/main/docs/screenshots/sharing-light.png)
+
+| Pop-up button with a glass menu | Glass alert |
+|---|---|
+| ![Text fields and a pop-up menu, dark mode](https://raw.githubusercontent.com/mostafijur566/macos_glass/main/docs/screenshots/controls-dark.png) | ![Destructive glass alert, dark mode](https://raw.githubusercontent.com/mostafijur566/macos_glass/main/docs/screenshots/alert-dark.png) |
+
+## Features
 
 - Translucent sidebar with real macOS vibrancy, a search field and coloured icon tiles
 - Page title and back button inside the window's title bar, next to the traffic lights
@@ -15,11 +29,13 @@
 - Light and dark themes, custom accent colour
 - No Material or Cupertino app required
 
-<!-- Add screenshots: docs/screenshots/sharing-dark.png, docs/screenshots/controls-light.png -->
-
 ## Install
 
-From GitHub:
+```bash
+flutter pub add macos_glass
+```
+
+or add it to `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -82,26 +98,33 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-Run the gallery (it recreates the System Settings **Sharing** pane plus a controls and dialogs page):
+## Run the gallery app
+
+The example app recreates the System Settings **Sharing** pane plus a controls and a dialogs page:
 
 ```bash
-cd example
+git clone https://github.com/mostafijur566/macos_glass.git
+cd macos_glass/example
 flutter create --platforms=macos .
 flutter run -d macos
 ```
 
 ## Widgets
 
+Each widget links to its page in the [live demo](https://mostafijur566.github.io/macos_glass/), which has a working example and the code for it.
+
 | Area | Widgets |
 |---|---|
-| App & window | `GlassApp`, `GlassWindowConfig`, `GlassWindow`, `GlassTitlebarPassthrough` |
-| Navigation | `GlassSidebar`, `GlassSidebarItem`, `GlassIconTile`, `GlassPage` |
-| Forms | `GlassFormSection`, `GlassFormRow`, `GlassGroup` |
-| Buttons | `GlassButton` — `primary`, `bezel`, `glass`, `destructive`, `plain` × `small`/`regular`/`large`; `GlassIconButton`, `GlassInfoButton` |
-| Inputs | `GlassTextField`, `GlassPopupButton`, `GlassSegmentedControl`, `GlassSwitch` (`mini`/`regular`/`large`), `GlassDateField`, `GlassCalendar` |
-| Overlays | `showGlassMenu`, `showGlassAlert`, `showGlassSheet`, `GlassTooltip` |
-| Feedback | `GlassSpinner` |
-| Building blocks | `GlassSurface`, `GlassPressable`, `GlassTheme`, `GlassThemeData`, `GlassIcons` |
+| App & window | [`GlassApp`](https://mostafijur566.github.io/macos_glass/#/theme), [`GlassWindowConfig`](https://mostafijur566.github.io/macos_glass/#/window), [`GlassWindow`](https://mostafijur566.github.io/macos_glass/#/window), [`GlassTitlebarPassthrough`](https://mostafijur566.github.io/macos_glass/#/window) |
+| Navigation | [`GlassSidebar`](https://mostafijur566.github.io/macos_glass/#/window), `GlassSidebarItem`, [`GlassIconTile`](https://mostafijur566.github.io/macos_glass/#/forms), [`GlassPage`](https://mostafijur566.github.io/macos_glass/#/window) |
+| Forms | [`GlassFormSection`, `GlassFormRow`, `GlassGroup`](https://mostafijur566.github.io/macos_glass/#/forms) |
+| Buttons | [`GlassButton`](https://mostafijur566.github.io/macos_glass/#/buttons) — `primary`, `bezel`, `glass`, `destructive`, `plain` × `small`/`regular`/`large`; `GlassIconButton`, `GlassInfoButton` |
+| Inputs | [`GlassTextField`, `GlassPopupButton`, `GlassSegmentedControl`, `GlassDateField`, `GlassCalendar`](https://mostafijur566.github.io/macos_glass/#/inputs), [`GlassSwitch`](https://mostafijur566.github.io/macos_glass/#/switches) (`mini`/`regular`/`large`) |
+| Overlays | [`showGlassMenu`](https://mostafijur566.github.io/macos_glass/#/menus), [`showGlassAlert`, `showGlassSheet`](https://mostafijur566.github.io/macos_glass/#/dialogs), [`GlassTooltip`](https://mostafijur566.github.io/macos_glass/#/feedback) |
+| Feedback | [`GlassSpinner`](https://mostafijur566.github.io/macos_glass/#/feedback) |
+| Building blocks | [`GlassSurface`, `GlassPressable`](https://mostafijur566.github.io/macos_glass/#/glass), [`GlassTheme`, `GlassThemeData`](https://mostafijur566.github.io/macos_glass/#/theme), `GlassIcons` |
+
+Full API: [pub.dev/documentation/macos_glass](https://pub.dev/documentation/macos_glass/latest/).
 
 ## How it works
 
