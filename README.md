@@ -39,7 +39,7 @@ or add it to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  macos_glass: ^0.1.3
+  macos_glass: ^0.1.4
 ```
 
 Minimum: Flutter 3.35 (Dart 3.9), macOS deployment target 10.14.6 (Flutter's default 12.0 is fine).

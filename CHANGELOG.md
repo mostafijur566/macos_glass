@@ -1,3 +1,8 @@
+## 0.1.4
+
+- Docs: live demo site at https://mostafijur566.github.io/macos_glass/ with every widget and its code.
+- README: screenshots, live demo link, widget links, `flutter pub add` install.
+
 ## 0.1.3
 
 - Dependencies: `cupertino_icons` ^2.0.0, `macos_window_utils` ^1.9.1.

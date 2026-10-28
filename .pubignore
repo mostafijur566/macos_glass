@@ -1,0 +1,19 @@
+.dart_tool/
+.packages
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+.DS_Store
+
+example/build/
+example/.dart_tool/
+example/macos/Flutter/ephemeral/
+example/macos/Pods/
+example/windows/flutter/ephemeral/
+
+# The demo website and screenshots are for GitHub only; keep them out of the package.
+docs/
