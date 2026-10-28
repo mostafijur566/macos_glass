@@ -1,0 +1,2010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>macos_glass – Liquid Glass widgets for Flutter</title>
+<meta name="description" content="macOS 26 Liquid Glass widgets for Flutter desktop: System Settings-style window, translucent sidebar, grouped forms, switches, menus and sheets. Try every widget live.">
+<meta property="og:title" content="macos_glass – Liquid Glass widgets for Flutter">
+<meta property="og:description" content="System Settings-style window, translucent sidebar, grouped forms, switches, menus and sheets for Flutter desktop apps. Try every widget live.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F2F2F4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23339CFF'/%3E%3Cstop offset='1' stop-color='%23007AFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M32 13c8 9.5 13 16.5 13 23a13 13 0 0 1-26 0c0-6.5 5-13.5 13-23z' fill='none' stroke='white' stroke-width='4.5' stroke-linejoin='round'/%3E%3C/svg%3E">
+<script>if(!/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent))document.documentElement.classList.add("no-sf");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens: the exact GlassThemeData values from the package ---------- */
+:root {
+  color-scheme: light;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+  --wr: 400;
+  --scroll-thumb: rgba(0,0,0,.28);
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --accent: #007AFF;
+  --canvas: #F2F2F4;
+  --sidebar-tint: rgba(255,255,255,.40);
+  --card: #FFFFFF;
+  --card-border: rgba(0,0,0,.059);
+  --divider: rgba(0,0,0,.078);
+  --label: rgba(0,0,0,.90);
+  --label2: rgba(0,0,0,.52);
+  --label3: rgba(0,0,0,.28);
+  --control: rgba(0,0,0,.059);
+  --control-hover: rgba(0,0,0,.09);
+  --control-pressed: rgba(0,0,0,.141);
+  --field: #FFFFFF;
+  --field-border: rgba(0,0,0,.122);
+  --glass-tint: rgba(255,255,255,.70);
+  --glass-border: rgba(0,0,0,.10);
+  --glass-sheen: rgba(255,255,255,.40);
+  --menu-tint: rgba(246,246,246,.85);
+  --hover: rgba(0,0,0,.051);
+  --shadow: rgba(0,0,0,.149);
+  --destructive: #FF3B30;
+  --success: #28A745;
+  --warning: #FF9500;
+  --switch-off: rgba(0,0,0,.09);
+  --knob-off: #FFFFFF;
+  --knob-border: rgba(0,0,0,.059);
+  --seg-selected: #FFFFFF;
+  --sel-pill: rgba(0,0,0,.078);
+  --search-fill: rgba(0,0,0,.051);
+  --sheet-tint: rgba(247,247,248,.97);
+  --ring-alpha: 55%;
+  /* site chrome */
+  --mb-bg: rgba(255,255,255,.42);
+  --mb-fg: rgba(0,0,0,.86);
+  --mb-open: rgba(0,0,0,.10);
+  --dock-bg: rgba(255,255,255,.38);
+  --dock-border: rgba(255,255,255,.55);
+  --win-shadow: 0 28px 70px rgba(0,0,0,.28), 0 0 0 .5px rgba(0,0,0,.22);
+  --win-ring: rgba(255,255,255,0);
+  --code-bg: #FBFBFC;
+  --syn-kw: #AD3DA4; --syn-str: #C41A16; --syn-num: #1C00CF; --syn-type: #0B4F79;
+  --syn-com: #5D6C79; --syn-prm: #326D74; --syn-anno: #643820;
+  --wall: linear-gradient(160deg, #cfe0ff 0%, #e6dcff 45%, #ffe2cf 100%);
+  --blob-o: .6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --accent: #0A84FF;
+    --canvas: #232323; --sidebar-tint: rgba(255,255,255,.078); --card: #2C2C2D;
+    --card-border: rgba(255,255,255,.059); --divider: rgba(255,255,255,.078);
+    --label: rgba(255,255,255,.95); --label2: rgba(255,255,255,.55); --label3: rgba(255,255,255,.32);
+    --control: rgba(255,255,255,.141); --control-hover: rgba(255,255,255,.18); --control-pressed: rgba(255,255,255,.24);
+    --field: rgba(0,0,0,.20); --field-border: rgba(255,255,255,.122);
+    --glass-tint: rgba(255,255,255,.18); --glass-border: rgba(255,255,255,.141); --glass-sheen: rgba(255,255,255,.10);
+    --menu-tint: rgba(42,42,44,.85); --hover: rgba(255,255,255,.07); --shadow: rgba(0,0,0,.40);
+    --destructive: #FF453A; --success: #32D74B; --warning: #FF9F0A;
+    --switch-off: rgba(255,255,255,.094); --knob-off: #E3E3E3; --knob-border: transparent;
+    --seg-selected: rgba(255,255,255,.278); --sel-pill: rgba(255,255,255,.122); --search-fill: rgba(255,255,255,.078);
+    --sheet-tint: rgba(38,38,40,.95); --ring-alpha: 75%;
+    --mb-bg: rgba(22,22,26,.38); --mb-fg: rgba(255,255,255,.92); --mb-open: rgba(255,255,255,.18);
+    --dock-bg: rgba(40,40,46,.38); --dock-border: rgba(255,255,255,.16);
+    --win-shadow: 0 30px 90px rgba(0,0,0,.6), 0 0 0 .5px rgba(0,0,0,.9);
+    --win-ring: rgba(255,255,255,.12);
+    --code-bg: #1E1E20;
+    --syn-kw: #FF7AB2; --syn-str: #FF8170; --syn-num: #D9C97C; --syn-type: #6BDFFF;
+    --syn-com: #7F8C98; --syn-prm: #67B7A4; --syn-anno: #FD8F3F;
+    --scroll-thumb: rgba(255,255,255,.3);
+    --wall: linear-gradient(160deg, #0b1330 0%, #1a1035 50%, #2b1408 100%);
+    --blob-o: .5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --accent: #0A84FF;
+  --canvas: #232323; --sidebar-tint: rgba(255,255,255,.078); --card: #2C2C2D;
+  --card-border: rgba(255,255,255,.059); --divider: rgba(255,255,255,.078);
+  --label: rgba(255,255,255,.95); --label2: rgba(255,255,255,.55); --label3: rgba(255,255,255,.32);
+  --control: rgba(255,255,255,.141); --control-hover: rgba(255,255,255,.18); --control-pressed: rgba(255,255,255,.24);
+  --field: rgba(0,0,0,.20); --field-border: rgba(255,255,255,.122);
+  --glass-tint: rgba(255,255,255,.18); --glass-border: rgba(255,255,255,.141); --glass-sheen: rgba(255,255,255,.10);
+  --menu-tint: rgba(42,42,44,.85); --hover: rgba(255,255,255,.07); --shadow: rgba(0,0,0,.40);
+  --destructive: #FF453A; --success: #32D74B; --warning: #FF9F0A;
+  --switch-off: rgba(255,255,255,.094); --knob-off: #E3E3E3; --knob-border: transparent;
+  --seg-selected: rgba(255,255,255,.278); --sel-pill: rgba(255,255,255,.122); --search-fill: rgba(255,255,255,.078);
+  --sheet-tint: rgba(38,38,40,.95); --ring-alpha: 75%;
+  --mb-bg: rgba(22,22,26,.38); --mb-fg: rgba(255,255,255,.92); --mb-open: rgba(255,255,255,.18);
+  --dock-bg: rgba(40,40,46,.38); --dock-border: rgba(255,255,255,.16);
+  --win-shadow: 0 30px 90px rgba(0,0,0,.6), 0 0 0 .5px rgba(0,0,0,.9);
+  --win-ring: rgba(255,255,255,.12);
+  --code-bg: #1E1E20;
+  --syn-kw: #FF7AB2; --syn-str: #FF8170; --syn-num: #D9C97C; --syn-type: #6BDFFF;
+  --syn-com: #7F8C98; --syn-prm: #67B7A4; --syn-anno: #FD8F3F;
+  --scroll-thumb: rgba(255,255,255,.3);
+    --wall: linear-gradient(160deg, #0b1330 0%, #1a1035 50%, #2b1408 100%);
+  --blob-o: .5;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; overflow: hidden; background: var(--canvas); color: var(--label);
+  font: var(--wr) 13px/1.25 var(--font); -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3.5px solid color-mix(in srgb, var(--accent) var(--ring-alpha), transparent); outline-offset: 1px; border-radius: 6px; }
+.gfield :focus-visible { outline: none; }
+.mono { font-family: var(--mono); font-size: 12px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Off Apple devices there's no San Francisco font, so Inter is tuned to read
+   like it: SF's tighter tracking, a touch more weight (macOS renders text
+   heavier than Windows), text optical size, SF-style alternates. */
+.no-sf { --font: "Inter", "Segoe UI", system-ui, sans-serif; --wr: 450; }
+.no-sf body { letter-spacing: -0.011em; font-optical-sizing: auto; font-feature-settings: "cv05", "ss03", "calt"; }
+.no-sf .mono, .no-sf .code pre { letter-spacing: 0; }
+
+/* macOS overlay scrollbars: thin, no track or arrows, only while hovering. */
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar { width: 11px; height: 11px; background: transparent; }
+  ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+  ::-webkit-scrollbar-button { display: none; }
+  ::-webkit-scrollbar-thumb { border: 3px solid transparent; border-radius: 6px; background-clip: padding-box; background-color: transparent; }
+  :hover::-webkit-scrollbar-thumb { background-color: var(--scroll-thumb); }
+  ::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--scroll-thumb) 100%, var(--label) 25%); }
+}
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  *:hover { scrollbar-color: var(--scroll-thumb) transparent; }
+}
+
+/* ---------- Desktop ---------- */
+.desk { position: fixed; inset: 0; background: var(--wall); overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: var(--blob-o); animation: drift 38s ease-in-out infinite alternate; }
+.blob.b1 { width: 55vmax; height: 55vmax; left: -15vmax; top: -20vmax; background: #3d8bff; }
+.blob.b2 { width: 45vmax; height: 45vmax; right: -12vmax; top: 5vmax; background: #a66bff; animation-delay: -8s; }
+.blob.b3 { width: 50vmax; height: 50vmax; right: 5vmax; bottom: -28vmax; background: #ff8c55; animation-delay: -16s; }
+.blob.b4 { width: 38vmax; height: 38vmax; left: 4vmax; bottom: -16vmax; background: #22c9b4; animation-delay: -24s; }
+@keyframes drift { to { transform: translate(6vmax, 4vmax) scale(1.08); } }
+.waves { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .35; }
+
+/* menu bar */
+.menubar {
+  position: fixed; z-index: 900; top: 0; left: 0; right: 0; height: 28px; padding: 0 8px;
+  display: flex; align-items: center; gap: 1px; color: var(--mb-fg); font-size: 13px;
+  background: var(--mb-bg); -webkit-backdrop-filter: blur(30px) saturate(1.8); backdrop-filter: blur(30px) saturate(1.8);
+}
+.mbi { height: 22px; padding: 0 9px; border: 0; border-radius: 6px; background: none; color: inherit; display: inline-flex; align-items: center; gap: 6px; cursor: default; white-space: nowrap; }
+.mbi.app { font-weight: 700; }
+.mbi.open { background: var(--mb-open); }
+.mb-logo { display: inline-flex; width: 16px; height: 16px; margin: 0 4px 0 6px; color: var(--mb-fg); }
+.mb-spacer { flex: 1; }
+.mb-clock { padding: 0 8px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* dock */
+.dock {
+  position: fixed; z-index: 800; left: 50%; bottom: 8px; transform: translateX(-50%);
+  display: flex; align-items: flex-end; gap: 4px; padding: 6px; border-radius: 24px;
+  background: var(--dock-bg); border: .5px solid var(--dock-border);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8); backdrop-filter: blur(30px) saturate(1.8);
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+.dock-item { position: relative; width: 50px; height: 50px; border: 0; padding: 0; background: none; cursor: default; flex: none; transition: width 140ms ease-out, height 140ms ease-out; }
+.dock.tracking .dock-item { transition: none; }
+.dock-item .tile { width: 100%; height: 100%; }
+.dock-item .tip { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 3px 10px; border-radius: 7px; font-size: 13px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 100ms; background: var(--menu-tint); color: var(--label); border: .5px solid var(--glass-border); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 4px 14px var(--shadow); }
+.dock-item:hover .tip, .dock-item:focus-visible .tip { opacity: 1; }
+.dock-item .dot { position: absolute; left: 50%; bottom: -5px; width: 4px; height: 4px; margin-left: -2px; border-radius: 2px; background: var(--mb-fg); opacity: 0; }
+.dock-item.running .dot { opacity: .75; }
+.dock-sep { width: .5px; align-self: stretch; margin: 4px 4px; background: var(--dock-border); }
+.dock-item.bounce .tile { animation: bounce 600ms ease-out; }
+@keyframes bounce { 30% { transform: translateY(-18px); } 60% { transform: translateY(0); } 80% { transform: translateY(-6px); } }
+
+/* overlay roots */
+#desk-overlay { position: fixed; inset: 0; z-index: 1000; pointer-events: none; }
+.win-overlay { position: absolute; inset: 0; z-index: 50; pointer-events: none; border-radius: inherit; overflow: hidden; }
+.layer { position: absolute; inset: 0; pointer-events: auto; }
+
+/* ---------- Window (GlassWindow) ---------- */
+.window {
+  position: absolute; display: flex; border-radius: 16px; overflow: hidden; z-index: 10;
+  box-shadow: var(--win-shadow); background: transparent;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.window::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 .5px var(--win-ring); pointer-events: none; z-index: 60; }
+.window.animating { transition: left 260ms cubic-bezier(.2,.8,.2,1), top 260ms cubic-bezier(.2,.8,.2,1), width 260ms cubic-bezier(.2,.8,.2,1), height 260ms cubic-bezier(.2,.8,.2,1); }
+.window.genie { transition: transform 380ms cubic-bezier(.4,0,.2,1), opacity 380ms ease; }
+.window.hidden { visibility: hidden; pointer-events: none; }
+.sidebar {
+  width: 240px; flex: none; display: flex; flex-direction: column; position: relative;
+  background: var(--sidebar-tint); border-right: .5px solid var(--divider);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8); backdrop-filter: blur(40px) saturate(1.8);
+}
+.sb-band { height: 52px; flex: none; position: relative; }
+.lights { position: absolute; left: 20px; top: 20px; display: flex; gap: 8px; }
+.light { width: 12px; height: 12px; border-radius: 50%; border: .5px solid rgba(0,0,0,.14); padding: 0; display: grid; place-items: center; cursor: default; color: rgba(0,0,0,.6); }
+.light svg { opacity: 0; width: 8px; height: 8px; }
+.lights:hover .light svg, .lights:focus-within .light svg { opacity: 1; }
+.light.close { background: #FF5F57; } .light.min { background: #FEBC2E; } .light.zoom { background: #28C840; }
+.sb-search { padding: 0 12px 10px; }
+.sb-list { flex: 1; overflow: auto; padding: 2px 8px 8px; }
+.sb-row { width: 100%; height: 32px; margin-bottom: 2px; padding: 0 8px; border: 0; border-radius: 8px; background: none; display: flex; align-items: center; gap: 10px; text-align: left; color: var(--label); cursor: default; transition: background-color 90ms; }
+.sb-row:hover { background: var(--hover); }
+.sb-row[aria-current="page"] { background: var(--sel-pill); font-weight: 500; }
+.sb-row .chev { display: none; margin-left: auto; color: var(--label3); }
+.sb-foot { padding: 8px 18px 14px; font-size: 11px; color: var(--label2); display: flex; gap: 6px; flex-wrap: wrap; }
+.sb-foot a { color: var(--label2); text-decoration: underline; }
+.sb-empty { padding: 10px; font-size: 12px; color: var(--label2); text-align: center; }
+.content { flex: 1; min-width: 0; background: var(--canvas); position: relative; display: flex; flex-direction: column; }
+.resize { position: absolute; z-index: 55; }
+.resize.r { right: 0; top: 16px; bottom: 16px; width: 6px; cursor: ew-resize; }
+.resize.b { bottom: 0; left: 16px; right: 16px; height: 6px; cursor: ns-resize; }
+.resize.rb { right: 0; bottom: 0; width: 16px; height: 16px; cursor: nwse-resize; }
+
+/* ---------- GlassPage ---------- */
+.page { display: none; flex-direction: column; flex: 1; min-height: 0; }
+.page.on { display: flex; }
+.page-tb { height: 52px; flex: none; display: flex; align-items: center; gap: 10px; padding: 0 14px; }
+.page-title { flex: 1; min-width: 0; font-weight: 700; font-size: 15px; letter-spacing: -.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.page-actions { display: flex; gap: 8px; min-width: 0; }
+.page-tb .page-back { display: none; }
+.page-body { flex: 1; overflow: auto; padding: 8px 20px 24px; scroll-behavior: smooth; }
+.inner { max-width: 700px; margin: 0 auto; }
+
+/* ---------- GlassSurface ---------- */
+.glass {
+  position: relative; isolation: isolate;
+  background: var(--tint, var(--glass-tint));
+  -webkit-backdrop-filter: blur(var(--blur, 24px)); backdrop-filter: blur(var(--blur, 24px));
+  border: .6px solid var(--glass-border);
+  --e: 1;
+  box-shadow: 0 calc(1px + 3px * var(--e)) calc(6px + 10px * var(--e)) var(--shadow);
+}
+.glass::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: linear-gradient(to bottom, var(--glass-sheen), transparent 55%); pointer-events: none; }
+.glass.e0 { box-shadow: none; } .glass.e2 { --e: 2; } .glass.e3 { --e: 3; }
+
+/* ---------- GlassButton ---------- */
+.gbtn {
+  --bh: 28px; --fs: 13px; --px: 13px;
+  height: var(--bh); padding: 0 var(--px); border: 0; border-radius: calc(var(--bh) / 2);
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px; flex: none;
+  font: 500 var(--fs)/1 var(--font); white-space: nowrap; color: var(--label); background: transparent; cursor: default;
+  transition: background-color 90ms, box-shadow 90ms;
+  user-select: none; -webkit-user-select: none;
+}
+.gbtn.sm { --bh: 22px; --fs: 11.5px; --px: 9px; }
+.gbtn.lg { --bh: 34px; --fs: 14px; --px: 18px; }
+.gbtn svg { width: calc(var(--fs) + 2px); height: calc(var(--fs) + 2px); }
+.gbtn.primary, .gbtn.destructive { color: #fff; --c: var(--accent); background: var(--c); box-shadow: 0 2px 8px color-mix(in srgb, var(--c) 28%, transparent); }
+.gbtn.destructive { --c: var(--destructive); }
+.gbtn.primary:hover, .gbtn.destructive:hover { background: color-mix(in srgb, var(--c) 92%, #fff); }
+.gbtn.primary:active, .gbtn.destructive:active { background: color-mix(in srgb, var(--c) 82%, #000); }
+.gbtn.bezel { background: var(--control); border: .5px solid var(--card-border); border-radius: calc(var(--bh) * .32); }
+.gbtn.bezel:hover { background: var(--control-hover); }
+.gbtn.bezel:active { background: var(--control-pressed); }
+.gbtn.glass:hover { --tint: var(--control-hover); }
+.gbtn.glass:active { --tint: var(--control-pressed); }
+.gbtn.plain { color: var(--accent); }
+.gbtn.plain:hover { background: var(--hover); }
+.gbtn.plain:active { background: var(--control-pressed); }
+.gbtn:disabled { opacity: .42; box-shadow: none; pointer-events: none; }
+.gbtn.expand { flex: 1; width: 100%; }
+
+/* GlassIconButton / GlassInfoButton */
+.gicon { --s: 28px; width: var(--s); height: var(--s); border: 0; padding: 0; border-radius: 50%; display: grid; place-items: center; color: var(--label2); background: transparent; cursor: default; flex: none; }
+.gicon:not(.glass):hover { background: var(--control-hover); }
+.gicon:not(.glass):active { background: var(--control-pressed); }
+.gicon.glass { color: var(--label); }
+.gicon.glass:hover { --tint: var(--control-hover); }
+.gicon.glass:active { --tint: var(--control-pressed); }
+.gicon:disabled { opacity: .35; pointer-events: none; }
+.ginfo { width: 18px; height: 18px; border-radius: 50%; border: 1.1px solid var(--label2); color: var(--label2); background: none; padding: 0; display: grid; place-items: center; font: 600 11px/1 var(--font); cursor: default; flex: none; }
+.ginfo:hover { border-color: var(--label); color: var(--label); }
+
+/* GlassIconTile */
+.tile { display: grid; place-items: center; flex: none; color: #fff; background: linear-gradient(to bottom, color-mix(in srgb, var(--tc) 82%, #fff), var(--tc)); box-shadow: 0 .5px 1px rgba(0,0,0,.15); }
+
+/* ---------- GlassSwitch ---------- */
+.gsw { --w: 36px; --h: 16px; --kw: 21px; --kwc: var(--kw); position: relative; width: var(--w); height: var(--h); padding: 0; border: 0; flex: none; border-radius: calc(var(--h) / 2); background: var(--switch-off); cursor: default; transition: background-color 180ms ease-out; }
+.gsw::before { content: ""; position: absolute; inset: -8px -6px; }
+.gsw.mini { --w: 28px; --h: 12px; --kw: 16px; }
+.gsw.large { --w: 46px; --h: 21px; --kw: 27px; }
+.gsw.pressed { --kwc: calc(var(--kw) + var(--h) * .28); }
+.gsw[aria-checked="true"] { background: var(--on, var(--accent)); }
+.gsw .knob { position: absolute; top: 1px; left: 1px; width: var(--kwc); height: calc(var(--h) - 2px); border-radius: calc((var(--h) - 2px) / 2); background: var(--knob-off); border: .5px solid var(--knob-border); box-shadow: 0 .5px 1.5px rgba(0,0,0,.2); transition: left 200ms cubic-bezier(.215,.61,.355,1), width 200ms cubic-bezier(.215,.61,.355,1), background-color 180ms; }
+.gsw[aria-checked="true"] .knob { left: calc(var(--w) - 1px - var(--kwc)); background: #fff; }
+.gsw:disabled { opacity: .5; }
+
+/* ---------- GlassTextField ---------- */
+.gfield { --r: 8px; position: relative; display: flex; align-items: center; min-width: 0; background: var(--field); border: .6px solid var(--field-border); border-radius: var(--r); }
+.gfield input, .gfield textarea { flex: 1; min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; color: var(--label); font: var(--wr) 13px/1.25 var(--font); padding: 5px 9px; caret-color: var(--accent); resize: none; }
+.gfield ::placeholder { color: var(--label3); }
+.gfield.capsule { --r: 10px; background: var(--search-fill); }
+.gfield.capsule input { padding: 6px; }
+.gfield.capsule ::placeholder { color: var(--label2); }
+.gfield.multi { --r: 9px; }
+.gfield.multi textarea { padding: 7px 9px; }
+.gfield .prefix { display: flex; margin-left: 8px; color: var(--label2); }
+.gfield::after { content: ""; position: absolute; inset: -3.6px; border-radius: calc(var(--r) + 3px); border: 3.5px solid color-mix(in srgb, var(--accent) var(--ring-alpha), transparent); opacity: 0; transition: opacity 120ms; pointer-events: none; }
+.gfield:focus-within::after { opacity: 1; }
+.gfield.disabled { opacity: .5; }
+
+/* ---------- Popup / date field ---------- */
+.gpopup { height: 28px; padding: 0 10px; border: .5px solid var(--card-border); border-radius: 8px; background: var(--control); display: flex; align-items: center; gap: 8px; color: var(--label); cursor: default; min-width: 0; text-align: left; }
+.gpopup:hover { background: var(--control-hover); }
+.gpopup:active { background: var(--control-pressed); }
+.gpopup .val { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gpopup .val.ph { color: var(--label3); }
+.gpopup svg { color: var(--label2); flex: none; }
+.gpopup:disabled { opacity: .45; pointer-events: none; }
+
+/* ---------- Menus ---------- */
+.gmenu { position: absolute; border-radius: 12px; --tint: var(--menu-tint); padding: 5px; overflow: auto; animation: menuIn 110ms ease-out; }
+@keyframes menuIn { from { opacity: 0; transform: scale(.96); } }
+.mi { height: 24px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; color: var(--label); white-space: nowrap; cursor: default; }
+.mi .ck { width: 18px; flex: none; display: flex; }
+.mi .lbl { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.mi .kbd { margin-left: 18px; color: var(--label2); }
+.mi.active { background: var(--accent); color: #fff; }
+.mi.active .kbd { color: rgba(255,255,255,.8); }
+.mi.disabled { color: var(--label3); }
+.msep { height: 1px; margin: 4px 8px; background: var(--divider); }
+
+/* ---------- Segmented ---------- */
+.gseg { height: 28px; padding: 2px; display: inline-flex; flex: none; border-radius: 14px; background: var(--control); border: .5px solid var(--card-border); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.gseg button { padding: 0 12px; border: 0; border-radius: 12px; background: transparent; color: var(--label); font: var(--wr) 12px/1 var(--font); cursor: default; white-space: nowrap; transition: background-color 140ms, box-shadow 140ms; }
+.gseg button:hover { background: var(--hover); }
+.gseg button[aria-checked="true"] { background: var(--seg-selected); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+/* ---------- Calendar ---------- */
+.gcal-head { display: flex; align-items: center; gap: 0; }
+.gcal-title { flex: 1; padding-left: 6px; font-weight: 600; border: 0; background: none; text-align: left; cursor: default; color: var(--label); }
+.gcal-week, .gcal-row { display: grid; grid-template-columns: repeat(7, 1fr); }
+.gcal-week { margin: 8px 0 4px; font-size: 11px; font-weight: 600; color: var(--label2); text-align: center; }
+.gcal-cell { height: 32px; display: grid; place-items: center; }
+.gcal-day { width: 28px; height: 28px; border-radius: 50%; border: 0; padding: 0; background: none; color: var(--label); cursor: default; font-variant-numeric: tabular-nums; }
+.gcal-day:hover { background: var(--hover); }
+.gcal-day.today { color: var(--accent); font-weight: 600; }
+.gcal-day.sel { background: var(--accent); color: #fff; font-weight: 600; }
+.popover { position: absolute; width: 268px; padding: 10px; border-radius: 16px; --tint: var(--menu-tint); animation: menuIn 110ms ease-out; }
+
+/* ---------- Alert / Sheet ---------- */
+.barrier { position: absolute; inset: 0; background: rgba(0,0,0,.22); animation: fadeIn 180ms ease-out; }
+.dlg-wrap { position: absolute; inset: 0; display: grid; place-items: center; padding: 40px 32px; overflow: auto; }
+.alert { width: 280px; max-width: 100%; padding: 20px 20px 16px; border-radius: 24px; --tint: var(--menu-tint); text-align: center; display: flex; flex-direction: column; align-items: center; animation: dlgIn 180ms cubic-bezier(.215,.61,.355,1); }
+.alert h3 { margin: 0; font-size: 13px; font-weight: 600; }
+.alert p { margin: 6px 0 0; font-size: 11.5px; line-height: 1.3; }
+.alert .btns { display: flex; gap: 8px; width: 100%; margin-top: 18px; }
+.sheet { width: 100%; border-radius: 22px; --tint: var(--sheet-tint); animation: dlgIn 180ms cubic-bezier(.215,.61,.355,1); max-height: 100%; overflow: auto; }
+.closing .barrier { animation: fadeOut 150ms ease-in forwards; }
+.closing .alert, .closing .sheet, .closing.gmenu, .closing.popover { animation: dlgOut 150ms ease-in forwards; }
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes fadeOut { to { opacity: 0; } }
+@keyframes dlgIn { from { opacity: 0; transform: scale(.94); } }
+@keyframes dlgOut { to { opacity: 0; transform: scale(.94); } }
+
+/* tooltip */
+.gtip { position: absolute; max-width: 240px; padding: 4px 8px; border-radius: 7px; --tint: var(--menu-tint); --blur: 16px; font-size: 11px; line-height: 1.3; color: var(--label); pointer-events: none; animation: fadeIn 120ms ease-out; white-space: normal; text-align: center; }
+
+/* spinner */
+.gspin { display: inline-block; flex: none; color: var(--label2); animation: spin 1s steps(8) infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Forms ---------- */
+.gsec { margin-bottom: 24px; }
+.gsec-head { display: flex; align-items: center; gap: 8px; min-height: 22px; padding: 0 4px 8px 10px; }
+.gsec-title { flex: 1; font-size: 13px; font-weight: 700; }
+.ggroup { background: var(--card); border: .5px solid var(--card-border); border-radius: 12px; padding: 4px 12px; }
+.ggroup > * + * { border-top: .5px solid var(--divider); }
+.gsec-foot { padding: 6px 10px 0; font-size: 11px; line-height: 1.3; color: var(--label2); }
+.grow { min-height: 44px; padding: 8px 0; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+.grow .main { flex: 1 1 200px; min-width: 0; display: flex; align-items: center; gap: 10px; }
+.grow .txt { min-width: 0; }
+.grow .sub { margin-top: 2px; font-size: 11px; line-height: 1.3; color: var(--label2); }
+.grow .trail { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; max-width: 100%; }
+.grow.click { cursor: default; }
+.grow.click:hover .chev { color: var(--label); }
+.chev { color: var(--label3); display: flex; }
+.block { padding: 10px 0; }
+.stage { padding: 14px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.caption { font-size: 11px; line-height: 1.3; color: var(--label2); }
+.status { font-variant-numeric: tabular-nums; }
+.status b { color: var(--label); font-weight: 600; }
+
+/* code */
+.code { position: relative; margin-top: 10px; border-radius: 12px; background: var(--code-bg); border: .5px solid var(--card-border); }
+.code pre { margin: 0; padding: 12px 14px; overflow: auto; font: 12px/1.55 var(--mono); color: var(--label); tab-size: 2; }
+.code .copy { position: absolute; top: 7px; right: 7px; }
+.code[hidden] { display: none; }
+.k { color: var(--syn-kw); font-weight: 500; } .s { color: var(--syn-str); } .n { color: var(--syn-num); }
+.t { color: var(--syn-type); } .c { color: var(--syn-com); font-style: italic; } .p { color: var(--syn-prm); } .a { color: var(--syn-anno); }
+
+/* overview */
+.hero { display: flex; gap: 18px; align-items: center; padding: 12px 4px 26px; flex-wrap: wrap; }
+.hero h1 { margin: 0; font-size: 28px; letter-spacing: -.6px; line-height: 1.1; }
+.hero p { margin: 6px 0 12px; color: var(--label2); font-size: 14px; line-height: 1.4; max-width: 520px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip { height: 20px; padding: 0 8px; border-radius: 10px; display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; background: var(--control); color: var(--label2); }
+.chip.acc { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); }
+.hero .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.ctx-area { height: 130px; border-radius: 10px; margin: 12px 0; border: 1.5px dashed var(--field-border); display: grid; place-items: center; text-align: center; color: var(--label2); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; padding: 10px; }
+.glass-stage { position: relative; height: 230px; margin: 12px 0; border-radius: 10px; overflow: hidden; display: grid; place-items: center; background: linear-gradient(135deg, #1e3c72, #2a5298 40%, #b06ab3); }
+.glass-stage .gs-blob { position: absolute; border-radius: 50%; animation: drift 14s ease-in-out infinite alternate; }
+.glass-stage .word { position: absolute; top: 14%; font-size: 84px; font-weight: 800; letter-spacing: -3px; color: #fff; opacity: .95; user-select: none; }
+.gs-surface { display: flex; align-items: center; gap: 6px; padding: 6px 8px; color: var(--label); }
+.gs-surface span { padding: 0 8px; font-weight: 600; }
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { width: 22px; height: 22px; border-radius: 50%; border: 0; padding: 0; background: var(--sc); cursor: default; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.2); position: relative; }
+.swatch[aria-checked="true"]::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: #fff; }
+.tok { display: flex; align-items: center; gap: 10px; min-height: 34px; padding: 6px 0; }
+.tok .sw { width: 22px; height: 22px; border-radius: 6px; flex: none; background-image: linear-gradient(var(--v), var(--v)), conic-gradient(#ccc 25%, #fff 0 50%, #ccc 0 75%, #fff 0); background-size: 100% 100%, 8px 8px; box-shadow: inset 0 0 0 .5px rgba(127,127,127,.4); }
+.tok .nm { flex: 1; min-width: 0; }
+.tok .hx { color: var(--label2); }
+.anat { position: relative; height: 210px; margin: 12px 0; border-radius: 12px; overflow: hidden; display: flex; border: .5px solid var(--card-border); font-size: 11px; }
+.anat .a-side { width: 32%; background: color-mix(in srgb, var(--accent) 10%, var(--card)); border-right: .5px solid var(--divider); padding: 10px; position: relative; }
+.anat .a-main { flex: 1; display: flex; flex-direction: column; background: var(--canvas); }
+.anat .a-band { height: 44px; border-bottom: 1.5px dashed color-mix(in srgb, var(--accent) 60%, transparent); display: flex; align-items: center; padding: 0 10px; gap: 6px; }
+.anat .a-body { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.anat .bar { height: 10px; border-radius: 5px; background: var(--control); }
+.anat .lab { font-family: var(--mono); font-size: 10.5px; color: var(--accent); font-weight: 500; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 8px 10px 0; font-size: 12px; }
+.fill { flex: 1; }
+
+/* ---------- Phone ---------- */
+@media (max-width: 760px) {
+  .menubar .mbi.opt { display: none; }
+  .window { left: 6px !important; right: 6px !important; top: 34px !important; bottom: 6px !important; width: auto !important; height: auto !important; border-radius: 18px; }
+  .resize { display: none; }
+  .sidebar { width: 100%; border-right: 0; background: color-mix(in srgb, var(--canvas) 72%, transparent); }
+  .content { display: none; }
+  .window.show-page .sidebar { display: none; }
+  .window.show-page .content { display: flex; }
+  .sb-row { height: 42px; font-size: 14px; }
+  .sb-row .chev { display: flex; }
+  .page-tb .page-back { display: grid; }
+  .page-actions { overflow-x: auto; padding: 12px 4px; margin: -12px -4px; scrollbar-width: none; }
+  .page-body { padding: 8px 14px 24px; }
+  body.win-open .dock { display: none; }
+  .hero h1 { font-size: 24px; }
+  .glass-stage .word { font-size: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  .gspin { animation: spin 1s steps(8) infinite !important; }
+}
+</style>
+</head>
+<body>
+<noscript>
+  <div style="padding:24px;max-width:640px;margin:auto;font:15px/1.5 system-ui,sans-serif">
+    <h1>macos_glass</h1>
+    <p>macOS 26 Liquid Glass widgets for Flutter desktop: System Settings-style window, translucent sidebar, grouped forms, switches, menus and sheets.</p>
+    <p>Turn on JavaScript to try every widget live, or see <a href="https://pub.dev/packages/macos_glass">pub.dev</a> and <a href="https://github.com/mostafijur566/macos_glass">GitHub</a>.</p>
+  </div>
+</noscript>
+
+<div class="desk" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+  <svg class="waves" viewBox="0 0 1440 900" preserveAspectRatio="none">
+    <path d="M0 620 C 260 520 520 760 820 640 S 1280 520 1440 600 L1440 900 L0 900Z" fill="rgba(255,255,255,.22)"/>
+    <path d="M0 720 C 300 640 560 840 900 740 S 1300 660 1440 720 L1440 900 L0 900Z" fill="rgba(255,255,255,.18)"/>
+  </svg>
+</div>
+
+<header class="menubar" id="menubar" role="menubar" aria-label="Menu bar">
+  <span class="mb-logo" id="mb-logo"></span>
+  <button class="mbi app" data-menu="app">macos_glass</button>
+  <button class="mbi opt" data-menu="file">File</button>
+  <button class="mbi opt" data-menu="view">View</button>
+  <button class="mbi opt" data-menu="window">Window</button>
+  <button class="mbi opt" data-menu="help">Help</button>
+  <span class="mb-spacer"></span>
+  <button class="mbi" id="mb-theme" aria-label="Appearance"></button>
+  <span class="mb-clock" id="mb-clock"></span>
+</header>
+
+<main class="window" id="win" aria-label="macos_glass gallery">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-band" data-drag>
+      <div class="lights" id="lights">
+        <button class="light close" data-act="close" aria-label="Close window"></button>
+        <button class="light min" data-act="min" aria-label="Minimize window"></button>
+        <button class="light zoom" data-act="zoom" aria-label="Zoom window"></button>
+      </div>
+    </div>
+    <div class="sb-search" id="sb-search"></div>
+    <nav class="sb-list" id="sb-list" aria-label="Widgets"></nav>
+    <div class="sb-foot"><span>v0.1.3</span><span>·</span><span>MIT</span><span>·</span><a href="https://github.com/mostafijur566/macos_glass" target="_blank" rel="noopener">GitHub</a></div>
+  </aside>
+  <section class="content" id="content"></section>
+  <div class="win-overlay" id="win-overlay"></div>
+  <div class="resize r" data-rz="r"></div><div class="resize b" data-rz="b"></div><div class="resize rb" data-rz="rb"></div>
+</main>
+
+<nav class="dock" id="dock" aria-label="Dock"></nav>
+<div id="desk-overlay"></div>
+
+<script>
+"use strict";
+/* =====================================================================
+   macos_glass showcase. Every widget below re-creates the Flutter widget
+   of the same name using the exact sizes and colours from the package.
+   ===================================================================== */
+const LINKS = {
+  pub: "https://pub.dev/packages/macos_glass",
+  github: "https://github.com/mostafijur566/macos_glass",
+  docs: "https://pub.dev/documentation/macos_glass/latest/",
+  issues: "https://github.com/mostafijur566/macos_glass/issues",
+  changelog: "https://github.com/mostafijur566/macos_glass/blob/main/CHANGELOG.md",
+};
+const VERSION = "0.1.3";
+
+/* ---------- tiny DOM helper ---------- */
+function h(tag, props, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k === "style" && typeof v === "object") {
+      for (const [sk, sv] of Object.entries(v)) sk.startsWith("--") ? el.style.setProperty(sk, sv) : (el.style[sk] = sv);
+    } else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === "html") el.innerHTML = v;
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat(Infinity)) {
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const $ = (s, r = document) => r.querySelector(s);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+
+/* ---------- icons (SF Symbols-style line glyphs) ---------- */
+const F = 'fill="currentColor" stroke="none"';
+const ICONS = {
+  star: `<path ${F} d="M12 2.8l2.75 5.8 6.35.75-4.7 4.35 1.25 6.3L12 16.9 6.35 20l1.25-6.3L2.9 9.35l6.35-.75z"/>`,
+  share: `<path d="M12 3v12M8 7l4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/>`,
+  cursor: `<path ${F} d="M6 2.5l13 9.5-5.6 1.1 3.3 6.4-2.6 1.3-3.2-6.5L6 18.6z"/>`,
+  toggle: `<rect x="2" y="6.5" width="20" height="11" rx="5.5"/><circle ${F} cx="16.5" cy="12" r="3.3"/>`,
+  textformat: `<path d="M3 18L8 6l5 12M5 14h6M16 9.5h3.2a2 2 0 0 1 2 2V18m0-4.3h-3.4a2.1 2.1 0 1 0 0 4.3h3.4"/>`,
+  list: `<path d="M9 6h12M9 12h12M9 18h12"/><circle ${F} cx="4" cy="6" r="1.4"/><circle ${F} cx="4" cy="12" r="1.4"/><circle ${F} cx="4" cy="18" r="1.4"/>`,
+  stack: `<rect x="8" y="8" width="13" height="13" rx="2.2"/><path d="M4.5 16V5.2A2.2 2.2 0 0 1 6.7 3H16"/>`,
+  drop: `<path d="M12 3c3.6 4.3 6.3 7.7 6.3 11a6.3 6.3 0 0 1-12.6 0C5.7 10.7 8.4 7.3 12 3z"/>`,
+  bubble: `<path d="M4.5 4.5h15A1.5 1.5 0 0 1 21 6v10a1.5 1.5 0 0 1-1.5 1.5H10l-5 3.5v-3.5h-.5A1.5 1.5 0 0 1 3 16V6a1.5 1.5 0 0 1 1.5-1.5z"/>`,
+  palette: `<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.7-.8 1.7-1.6 0-1-.8-1.3-.8-2.2 0-1 .8-1.6 1.8-1.6h2.1A4.2 4.2 0 0 0 21 11.4C21 6.7 17 3 12 3z"/><circle ${F} cx="7.5" cy="11.5" r="1.4"/><circle ${F} cx="10" cy="7.3" r="1.4"/><circle ${F} cx="14.8" cy="7.3" r="1.4"/>`,
+  window: `<rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 9h19"/><circle ${F} cx="5.5" cy="6.5" r=".9"/><circle ${F} cx="8" cy="6.5" r=".9"/>`,
+  sidebar: `<rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M9 4v16"/>`,
+  folder: `<path ${F} d="M2.5 6.5A2 2 0 0 1 4.5 4.5h4.4l2 2h8.6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2z"/>`,
+  music: `<path d="M9 18V5.5l11-2.2v12.4"/><circle ${F} cx="6.2" cy="18" r="2.9"/><circle ${F} cx="17.2" cy="15.8" r="2.9"/>`,
+  screens: `<rect x="2.5" y="8" width="12.5" height="9.5" rx="1.6"/><path d="M8.5 5.5V5a1.5 1.5 0 0 1 1.5-1.5h10A1.5 1.5 0 0 1 21.5 5v7.5A1.5 1.5 0 0 1 20 14h-2.5"/>`,
+  download: `<circle cx="12" cy="12" r="9"/><path d="M12 7.5v9M8 12.5l4 4 4-4"/>`,
+  bluetooth: `<path d="M7 7.5l10 9-5 4.5V3l5 4.5-10 9"/>`,
+  printer: `<path d="M7 8.5V3.5h10v5M7 17.5H4.5a1 1 0 0 1-1-1V11a2.5 2.5 0 0 1 2.5-2.5h12a2.5 2.5 0 0 1 2.5 2.5v5.5a1 1 0 0 1-1 1H17"/><path d="M7 14h10v6.5H7z"/>`,
+  globe: `<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>`,
+  trash: `<path d="M4 6.5h16M9.5 6.5V4h5v2.5M6 6.5l1 13.5h10l1-13.5M10 10.5v6M14 10.5v6"/>`,
+  question: `<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.4 2.4c-.7.3-1 .8-1 1.6v.4"/><circle ${F} cx="12" cy="17" r="1.1"/>`,
+  search: `<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/>`,
+  chevL: `<path d="M15 4.5L7.5 12l7.5 7.5"/>`,
+  chevR: `<path d="M9 4.5l7.5 7.5L9 19.5"/>`,
+  chevUD: `<path d="M7.5 9.5L12 5l4.5 4.5M7.5 14.5L12 19l4.5-4.5"/>`,
+  chevD: `<path d="M5 9l7 7 7-7"/>`,
+  check: `<path d="M4.5 12.5l5 5L19.5 6.5"/>`,
+  plus: `<path d="M12 4.5v15M4.5 12h15"/>`,
+  minus: `<path d="M5 12h14"/>`,
+  xmark: `<path d="M6 6l12 12M18 6L6 18"/>`,
+  ellipsis: `<circle ${F} cx="5.5" cy="12" r="1.7"/><circle ${F} cx="12" cy="12" r="1.7"/><circle ${F} cx="18.5" cy="12" r="1.7"/>`,
+  sun: `<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6L6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>`,
+  moon: `<path d="M20 14.5A8.2 8.2 0 1 1 9.5 4a6.6 6.6 0 0 0 10.5 10.5z"/>`,
+  half: `<circle cx="12" cy="12" r="8.5"/><path ${F} d="M12 3.5a8.5 8.5 0 0 1 0 17z"/>`,
+  calendar: `<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>`,
+  book: `<path d="M12 6.5C10.3 5 7.8 4.5 4 4.5v14c3.8 0 6.3.5 8 2 1.7-1.5 4.2-2 8-2v-14c-3.8 0-6.3.5-8 2zM12 6.5v14"/>`,
+  box: `<path d="M21 7.5L12 3 3 7.5l9 4.5 9-4.5zM3 7.5v9l9 4.5 9-4.5v-9M12 12v9"/>`,
+  code: `<path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 4.5l-3 15"/>`,
+  sliders: `<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/>`,
+  mail: `<rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="M3.5 7l8.5 6 8.5-6"/>`,
+  photo: `<rect x="3" y="4.5" width="18" height="15" rx="2.2"/><circle ${F} cx="8.5" cy="9.5" r="1.7"/><path d="M3.5 17l5-5 4 4 2.5-2.5 5.5 5.5"/>`,
+  note: `<path d="M6 3h8.5L19 7.5V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM14 3v5h5M8.5 13h7M8.5 17h5"/>`,
+  copy: `<rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/>`,
+  external: `<path d="M14 4h6v6M20 4l-9 9M18 13.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5.5"/>`,
+  info: `<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle ${F} cx="12" cy="7.6" r="1.2"/>`,
+  arrowsOut: `<path d="M14 4h6v6M10 20H4v-6M20 4l-6.5 6.5M4 20l6.5-6.5"/>`,
+  refresh: `<path d="M20 11a8 8 0 0 0-14.3-4.6L4 8.5M4 4v4.5h4.5M4 13a8 8 0 0 0 14.3 4.6l1.7-2.1M20 20v-4.5h-4.5"/>`,
+};
+function icon(name, size = 16, sw = 2) {
+  const t = document.createElement("template");
+  t.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ""}</svg>`;
+  return t.content.firstChild;
+}
+
+/* ---------- theme ---------- */
+const ACCENTS = [
+  { id: "blue", name: "Blue", light: "#007AFF", dark: "#0A84FF" },
+  { id: "purple", name: "Purple", light: "#AF52DE", dark: "#BF5AF2" },
+  { id: "pink", name: "Pink", light: "#FF2D55", dark: "#FF375F" },
+  { id: "red", name: "Red", light: "#FF3B30", dark: "#FF453A" },
+  { id: "orange", name: "Orange", light: "#FF9500", dark: "#FF9F0A" },
+  { id: "yellow", name: "Yellow", light: "#FFCC00", dark: "#FFD60A" },
+  { id: "green", name: "Green", light: "#28CD41", dark: "#32D74B" },
+  { id: "graphite", name: "Graphite", light: "#8E8E93", dark: "#98989D" },
+];
+const theme = Object.assign({ mode: "system", accent: "blue" }, store.get("mg-theme", {}));
+const themeSubs = new Set();
+const darkMq = matchMedia("(prefers-color-scheme: dark)");
+const isDark = () => theme.mode === "dark" || (theme.mode === "system" && darkMq.matches);
+const accentHex = () => { const a = ACCENTS.find(x => x.id === theme.accent) || ACCENTS[0]; return isDark() ? a.dark : a.light; };
+function applyTheme() {
+  const root = document.documentElement;
+  root.dataset.theme = isDark() ? "dark" : "light";
+  root.style.setProperty("--accent", accentHex());
+  $('meta[name="theme-color"]').setAttribute("content", isDark() ? "#232323" : "#F2F2F4");
+  store.set("mg-theme", theme);
+  themeSubs.forEach(fn => fn());
+}
+function setTheme(patch) { Object.assign(theme, patch); applyTheme(); }
+darkMq.addEventListener("change", () => theme.mode === "system" && applyTheme());
+const onTheme = fn => { themeSubs.add(fn); fn(); };
+
+/* ---------- Esc / keyboard stack for overlays ---------- */
+const keyStack = [];
+document.addEventListener("keydown", e => {
+  const top = keyStack[keyStack.length - 1];
+  if (top && top(e)) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+
+const winEl = $("#win");
+const winOverlay = $("#win-overlay");
+const deskOverlay = $("#desk-overlay");
+const rootFor = el => (el && el.closest && el.closest("#win") ? winOverlay : deskOverlay);
+
+/* =====================================================================
+   Widgets
+   ===================================================================== */
+
+/** GlassIconTile — white glyph on a rounded, softly graded colour tile. */
+function IconTile(name, color, size = 22) {
+  return h("span", { class: "tile", style: { width: size + "px", height: size + "px", borderRadius: size * 0.26 + "px", "--tc": color } }, icon(name, Math.round(size * 0.62), size > 30 ? 2.2 : 2.4));
+}
+
+/** GlassButton */
+function Button({ label, style = "bezel", size = "regular", onClick, disabled, expand, iconName, title }) {
+  const cls = ["gbtn", style, size === "small" ? "sm" : size === "large" ? "lg" : "", expand ? "expand" : "", style === "glass" ? "glass" : ""].join(" ");
+  return h("button", { class: cls, type: "button", disabled, onclick: onClick, title }, iconName && icon(iconName, 14), label);
+}
+
+/** GlassIconButton */
+function IconButton({ name, glass = false, size = 28, iconSize, onClick, label, disabled, color }) {
+  return h("button", {
+    class: "gicon" + (glass ? " glass" : ""), type: "button", "aria-label": label, disabled, onclick: onClick,
+    style: { "--s": size + "px", color },
+  }, icon(name, iconSize || Math.round(size * 0.5), 2.2));
+}
+
+/** GlassInfoButton */
+const InfoButton = ({ onClick, label = "More info" }) => h("button", { class: "ginfo", type: "button", "aria-label": label, onclick: onClick }, "i");
+
+/** GlassSwitch — 28×12 / 36×16 / 46×21 pt with a pill knob that stretches while pressed. */
+function Switch({ value = false, onChange, size = "regular", disabled, activeColor, label }) {
+  const el = h("button", { class: "gsw " + (size === "regular" ? "" : size), type: "button", role: "switch", "aria-checked": String(value), "aria-label": label, disabled }, h("span", { class: "knob" }));
+  if (activeColor) el.style.setProperty("--on", activeColor);
+  const press = on => el.classList.toggle("pressed", on);
+  el.addEventListener("pointerdown", () => press(true));
+  ["pointerup", "pointerleave", "pointercancel", "blur"].forEach(t => el.addEventListener(t, () => press(false)));
+  el.addEventListener("click", () => { value = !value; el.setAttribute("aria-checked", value); onChange && onChange(value); });
+  el.set = v => { value = v; el.setAttribute("aria-checked", v); };
+  return el;
+}
+
+/** GlassTextField */
+function TextField({ placeholder, capsule, prefixIcon, multiline, minLines = 3, onInput, onEnter, disabled, value = "", label, autofocus }) {
+  const input = multiline
+    ? h("textarea", { rows: minLines, placeholder, disabled, "aria-label": label || placeholder })
+    : h("input", { type: "text", placeholder, disabled, "aria-label": label || placeholder, autocomplete: "off", spellcheck: "false" });
+  input.value = value;
+  if (onInput) input.addEventListener("input", () => onInput(input.value));
+  if (onEnter) input.addEventListener("keydown", e => { if (e.key === "Enter" && !multiline) onEnter(input.value); });
+  const el = h("label", { class: "gfield" + (capsule ? " capsule" : "") + (multiline ? " multi" : "") + (disabled ? " disabled" : "") },
+    prefixIcon && h("span", { class: "prefix" }, icon(prefixIcon, 14, 2.2)), input);
+  el.input = input;
+  if (autofocus) setTimeout(() => input.focus(), 60);
+  return el;
+}
+
+/** showGlassMenu — positions like the package: below the anchor if it fits, otherwise above. */
+function showGlassMenu({ anchor, items, selected, hasSelection = false, minWidth, root = deskOverlay, onOpen }) {
+  let close;
+  const p = new Promise(resolve => {
+    const rr = root.getBoundingClientRect();
+    const a = { left: anchor.left - rr.left, top: anchor.top - rr.top, bottom: anchor.bottom - rr.top, width: anchor.width };
+    const contentH = items.reduce((s, i) => s + (i.separator ? 9 : 24), 0) + 10;
+    const spaceBelow = rr.height - a.bottom - 12, spaceAbove = a.top - 12;
+    const below = spaceBelow >= Math.min(contentH, 220) || spaceBelow >= spaceAbove;
+    const maxH = Math.max(80, Math.min(contentH, below ? spaceBelow : spaceAbove));
+    const width = Math.max(minWidth ?? a.width, 160);
+    const left = Math.max(8, Math.min(a.left, rr.width - width - 8));
+    const top = below ? a.bottom + 4 : a.top - 4 - maxH;
+    const layer = h("div", { class: "layer" });
+    const menu = h("div", { class: "glass e2 gmenu", role: "menu", style: { left: left + "px", top: top + "px", width: width + "px", maxHeight: maxH + "px", transformOrigin: below ? "top center" : "bottom center" } });
+    const rows = [];
+    let active = -1;
+    const setActive = i => { rows.forEach((r, j) => r && r.classList.toggle("active", j === i)); active = i; };
+    items.forEach((it, i) => {
+      if (it.separator) { menu.append(h("div", { class: "msep" })); rows.push(null); return; }
+      const enabled = it.enabled !== false;
+      const row = h("div", { class: "mi" + (enabled ? "" : " disabled"), role: hasSelection ? "menuitemradio" : "menuitem", "aria-disabled": String(!enabled), "aria-checked": hasSelection ? String(it.value === selected) : null },
+        hasSelection && h("span", { class: "ck" }, it.value === selected ? icon("check", 11, 2.6) : null),
+        h("span", { class: "lbl" }, it.label), it.kbd && h("span", { class: "kbd" }, it.kbd));
+      if (enabled) {
+        row.addEventListener("pointerenter", () => setActive(i));
+        row.addEventListener("pointerleave", () => setActive(-1));
+        row.addEventListener("click", () => close(it));
+      }
+      rows.push(row); menu.append(row);
+    });
+    layer.append(menu);
+    const dismiss = e => { if (!menu.contains(e.target)) { e.preventDefault(); close(null); } };
+    layer.addEventListener("pointerdown", dismiss);
+    layer.addEventListener("contextmenu", e => e.preventDefault());
+    const enabledIdx = rows.map((r, i) => (r && !r.classList.contains("disabled") ? i : -1)).filter(i => i >= 0);
+    const onKey = e => {
+      if (e.key === "Escape") { close(null); return true; }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        const pos = enabledIdx.indexOf(active);
+        const next = e.key === "ArrowDown" ? enabledIdx[(pos + 1) % enabledIdx.length] : enabledIdx[(pos - 1 + enabledIdx.length) % enabledIdx.length];
+        setActive(next ?? -1); return true;
+      }
+      if ((e.key === "Enter" || e.key === " ") && active >= 0) { close(items[active]); return true; }
+      return false;
+    };
+    keyStack.push(onKey);
+    root.append(layer);
+    let done = false;
+    close = result => {
+      if (done) return; done = true;
+      keyStack.splice(keyStack.indexOf(onKey), 1);
+      layer.remove();
+      resolve(result ? { value: result.value, label: result.label } : null);
+    };
+    onOpen && onOpen(close);
+  });
+  p.close = v => close && close(v);
+  return p;
+}
+
+/** GlassPopupButton */
+function PopupButton({ items, value, onChange, placeholder, disabled, width }) {
+  const val = h("span", { class: "val" });
+  const btn = h("button", { class: "gpopup", type: "button", disabled, "aria-haspopup": "menu", style: width ? { width } : null }, val, icon("chevUD", 11, 2.6));
+  const render = () => {
+    const it = items.find(i => i.value === value);
+    val.textContent = it ? it.label : placeholder || "";
+    val.classList.toggle("ph", !it);
+  };
+  btn.addEventListener("click", async () => {
+    const picked = await showGlassMenu({ anchor: btn.getBoundingClientRect(), items, selected: value, hasSelection: true, root: rootFor(btn) });
+    if (picked) { value = picked.value; render(); onChange && onChange(value); }
+    btn.focus({ preventScroll: true });
+  });
+  render();
+  btn.set = v => { value = v; render(); };
+  return btn;
+}
+
+/** GlassSegmentedControl */
+function Segmented({ segments, value, onChange, label }) {
+  const el = h("div", { class: "gseg", role: "radiogroup", "aria-label": label });
+  const btns = segments.map(s => {
+    const b = h("button", { type: "button", role: "radio", "aria-checked": String(s.value === value) }, s.label);
+    b.addEventListener("click", () => { el.set(s.value); onChange && onChange(s.value); });
+    el.append(b);
+    return b;
+  });
+  el.set = v => { value = v; btns.forEach((b, i) => b.setAttribute("aria-checked", String(segments[i].value === v))); };
+  return el;
+}
+
+/** GlassCalendar */
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
+const sameDay = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+function Calendar({ selected, onChange }) {
+  let month = new Date(selected.getFullYear(), selected.getMonth(), 1);
+  const el = h("div", { class: "gcal" });
+  const render = () => {
+    const today = new Date();
+    const lead = (month.getDay() + 6) % 7; // Monday first
+    const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+    const cells = [...Array(lead).fill(null), ...Array.from({ length: days }, (_, i) => new Date(month.getFullYear(), month.getMonth(), i + 1))];
+    while (cells.length % 7) cells.push(null);
+    el.replaceChildren(
+      h("div", { class: "gcal-head" },
+        h("button", { class: "gcal-title", type: "button", title: "Go to today", onclick: () => { month = new Date(today.getFullYear(), today.getMonth(), 1); render(); } }, `${MONTHS[month.getMonth()]} ${month.getFullYear()}`),
+        IconButton({ name: "chevL", size: 24, iconSize: 12, label: "Previous month", onClick: () => { month = new Date(month.getFullYear(), month.getMonth() - 1, 1); render(); } }),
+        IconButton({ name: "chevR", size: 24, iconSize: 12, label: "Next month", onClick: () => { month = new Date(month.getFullYear(), month.getMonth() + 1, 1); render(); } })),
+      h("div", { class: "gcal-week" }, WEEKDAYS.map(w => h("span", {}, w))),
+      ...Array.from({ length: cells.length / 7 }, (_, r) => h("div", { class: "gcal-row" }, cells.slice(r * 7, r * 7 + 7).map(d => h("div", { class: "gcal-cell" },
+        d && h("button", {
+          type: "button", class: "gcal-day" + (sameDay(d, selected) ? " sel" : "") + (sameDay(d, today) ? " today" : ""),
+          "aria-label": d.toDateString(), onclick: () => { selected = d; render(); onChange && onChange(d); },
+        }, d.getDate()))))));
+  };
+  render();
+  return el;
+}
+
+/** GlassDateField — opens a 268 pt calendar popover. */
+const fmtDate = d => `${d.getDate()} ${MONTHS[d.getMonth()].slice(0, 3)} ${d.getFullYear()}`;
+function DateField({ value, onChange, width = "160px" }) {
+  const val = h("span", { class: "val" });
+  const btn = h("button", { class: "gpopup", type: "button", style: { width }, "aria-haspopup": "dialog" }, val, icon("chevUD", 11, 2.6));
+  const render = () => (val.textContent = fmtDate(value));
+  btn.addEventListener("click", () => {
+    const root = rootFor(btn);
+    const rr = root.getBoundingClientRect(), a = btn.getBoundingClientRect();
+    const w = 268, hgt = 290;
+    const below = a.bottom - rr.top + hgt + 12 < rr.height;
+    const maxLeft = rr.width - w - 8;
+    const left = maxLeft < 8 ? 8 : Math.min(Math.max(a.left - rr.left, 8), maxLeft);
+    const top = below ? a.bottom - rr.top + 6 : a.top - rr.top - hgt - 6;
+    const layer = h("div", { class: "layer" });
+    const close = () => { layer.remove(); keyStack.splice(keyStack.indexOf(onKey), 1); btn.focus({ preventScroll: true }); };
+    const onKey = e => (e.key === "Escape" ? (close(), true) : false);
+    const pop = h("div", { class: "glass e2 popover", role: "dialog", "aria-label": "Choose date", style: { left: left + "px", top: Math.max(8, top) + "px" } },
+      Calendar({ selected: value, onChange: d => { value = d; render(); close(); onChange && onChange(d); } }));
+    layer.append(pop);
+    layer.addEventListener("pointerdown", e => { if (!pop.contains(e.target)) close(); });
+    keyStack.push(onKey);
+    root.append(layer);
+  });
+  render();
+  return btn;
+}
+
+/** Route used by alerts and sheets: dim barrier + fade/scale 0.94 → 1 over 180 ms. */
+function glassRoute({ root, barrierDismissible, build }) {
+  return new Promise(resolve => {
+    const prevFocus = document.activeElement;
+    const layer = h("div", { class: "layer" }, h("div", { class: "barrier" }));
+    const wrap = h("div", { class: "dlg-wrap" });
+    let done = false;
+    const close = v => {
+      if (done) return; done = true;
+      keyStack.splice(keyStack.indexOf(onKey), 1);
+      layer.classList.add("closing");
+      setTimeout(() => { layer.remove(); prevFocus && prevFocus.focus && prevFocus.focus({ preventScroll: true }); resolve(v); }, 150);
+    };
+    const { node, onKey: ok } = build(close);
+    const onKey = e => (ok ? ok(e) : false) || (e.key === "Escape" && barrierDismissible ? (close(undefined), true) : false);
+    wrap.append(node);
+    if (barrierDismissible) wrap.addEventListener("pointerdown", e => { if (e.target === wrap) close(undefined); });
+    layer.append(wrap);
+    keyStack.push(onKey);
+    root.append(layer);
+  });
+}
+
+/** showGlassAlert — returns true for the primary button. */
+function showGlassAlert({ title, message, primaryLabel, secondaryLabel, destructive, iconTile, root = winOverlay }) {
+  return glassRoute({
+    root, build: close => {
+      const primary = Button({ label: primaryLabel, style: destructive ? "destructive" : "primary", expand: true, onClick: () => close(true) });
+      const node = h("div", { class: "glass e3 alert", role: "alertdialog", "aria-modal": "true", "aria-label": title },
+        iconTile && h("div", { style: { marginBottom: "12px" } }, iconTile),
+        h("h3", {}, title), h("p", {}, message),
+        h("div", { class: "btns" }, secondaryLabel && Button({ label: secondaryLabel, expand: true, onClick: () => close(false) }), primary));
+      setTimeout(() => primary.focus(), 30);
+      return { node, onKey: e => (e.key === "Escape" && secondaryLabel ? (close(false), true) : false) };
+    },
+  }).then(v => v === true);
+}
+
+/** showGlassSheet */
+function showGlassSheet({ build, maxWidth = 560, barrierDismissible = false, root = winOverlay }) {
+  return glassRoute({
+    root, barrierDismissible, build: close => ({ node: h("div", { class: "glass e3 sheet", role: "dialog", "aria-modal": "true", style: { maxWidth: maxWidth + "px" } }, build(close)) }),
+  });
+}
+
+/** GlassTooltip — shows after hovering 650 ms (long-press on touch). */
+function Tooltip(child, message) {
+  let timer, tip;
+  const show = () => {
+    const root = rootFor(child), rr = root.getBoundingClientRect(), r = child.getBoundingClientRect();
+    tip = h("div", { class: "glass gtip", role: "tooltip" }, message);
+    root.append(tip);
+    const w = tip.offsetWidth;
+    const left = Math.min(Math.max(8, r.left - rr.left + r.width / 2 - w / 2), rr.width - w - 8);
+    tip.style.left = left + "px";
+    tip.style.top = r.bottom - rr.top + 6 + "px";
+  };
+  const hide = () => { clearTimeout(timer); tip && tip.remove(); tip = null; };
+  child.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") { clearTimeout(timer); timer = setTimeout(show, 650); } });
+  child.addEventListener("pointerleave", hide);
+  child.addEventListener("pointerdown", e => { hide(); if (e.pointerType !== "mouse") timer = setTimeout(show, 450); });
+  child.addEventListener("pointerup", e => { if (e.pointerType !== "mouse") { clearTimeout(timer); setTimeout(hide, 1400); } });
+  child.addEventListener("focus", () => { timer = setTimeout(show, 650); });
+  child.addEventListener("blur", hide);
+  return child;
+}
+
+/** GlassSpinner — CupertinoActivityIndicator-style, 8 ticks. */
+function Spinner(radius = 10) {
+  const s = radius * 2;
+  const ticks = Array.from({ length: 8 }, (_, i) => `<rect x="${radius - radius * 0.11}" y="0" width="${radius * 0.22}" height="${radius * 0.55}" rx="${radius * 0.11}" fill="currentColor" opacity="${[1, .85, .72, .6, .5, .42, .35, .3][i]}" transform="rotate(${-i * 45} ${radius} ${radius})"/>`).join("");
+  const t = document.createElement("template");
+  t.innerHTML = `<svg class="gspin" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" role="progressbar" aria-label="Loading">${ticks}</svg>`;
+  return t.content.firstChild;
+}
+
+/* ---------- Form building blocks ---------- */
+/** GlassFormRow */
+function Row({ label, sub, leading, trailing, onClick, chevron }) {
+  const el = h("div", { class: "grow" + (onClick ? " click" : "") },
+    h("div", { class: "main" }, leading, h("div", { class: "txt" }, h("div", {}, label), sub && h("div", { class: "sub" }, sub))),
+    (trailing || chevron) && h("div", { class: "trail" }, trailing, chevron && h("span", { class: "chev" }, icon("chevR", 12, 2.4))));
+  if (onClick) { el.tabIndex = 0; el.setAttribute("role", "link"); el.addEventListener("click", onClick); el.addEventListener("keydown", e => e.key === "Enter" && onClick()); }
+  return el;
+}
+/** GlassGroup */
+const Group = (...kids) => h("div", { class: "ggroup" }, kids);
+/** GlassFormSection (+ an optional code panel for the showcase) */
+function Section({ title, trailing, footer, rows, code, lang = "dart", codeOpen = false, id }) {
+  const head = (title || trailing || code) && h("div", { class: "gsec-head" }, h("div", { class: "gsec-title" }, title || ""), trailing);
+  const group = Group(rows);
+  const foot = footer && h("div", { class: "gsec-foot" }, footer);
+  const el = h("section", { class: "gsec", id }, head, group, foot);
+  if (code) {
+    const panel = CodeBlock(code, lang);
+    panel.hidden = !codeOpen;
+    const toggle = Button({ label: codeOpen ? "Hide code" : "Show code", style: "plain", size: "small", iconName: "code" });
+    toggle.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      toggle.lastChild.textContent = panel.hidden ? "Show code" : "Hide code";
+    });
+    head.append(toggle);
+    el.append(panel);
+    el.code = panel;
+  }
+  el.group = group; el.foot = foot;
+  return el;
+}
+
+/* ---------- code blocks ---------- */
+const esc = s => s.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+function highlight(src, lang) {
+  if (lang === "shell") return src.split("\n").map(l => l.startsWith("#") ? `<span class="c">${esc(l)}</span>` : esc(l).replace(/^(\w[\w-]*)/, '<span class="k">$1</span>')).join("\n");
+  if (lang === "yaml") return src.split("\n").map(l => {
+    const m = l.match(/^(\s*)([\w.-]+)(:)(.*)$/);
+    if (l.trim().startsWith("#")) return `<span class="c">${esc(l)}</span>`;
+    return m ? `${m[1]}<span class="t">${esc(m[2])}</span>${m[3]}<span class="s">${esc(m[4])}</span>` : esc(l);
+  }).join("\n");
+  const re = /(\/\/[^\n]*)|('(?:\\.|[^'\\\n])*'|"(?:\\.|[^"\\\n])*")|\b(import|export|class|extends|with|const|final|var|void|return|await|async|if|else|for|in|new|true|false|null|static|late|required|super|this|show|switch|case|default|int|double|bool)\b|(\b0x[0-9A-Fa-f]+\b|\b\d+(?:\.\d+)?\b)|(@\w+)|\b([A-Z]\w*)\b|\b([a-z_]\w*)(?=:(?!:))/g;
+  let out = "", last = 0, m;
+  while ((m = re.exec(src))) {
+    out += esc(src.slice(last, m.index));
+    const cls = m[1] ? "c" : m[2] ? "s" : m[3] ? "k" : m[4] ? "n" : m[5] ? "a" : m[6] ? "t" : "p";
+    out += `<span class="${cls}">${esc(m[0])}</span>`;
+    last = re.lastIndex;
+  }
+  return out + esc(src.slice(last));
+}
+function CodeBlock(src, lang = "dart") {
+  const pre = h("pre", { tabindex: "0" });
+  const el = h("div", { class: "code" }, pre);
+  const copy = Button({ label: "Copy", size: "small", iconName: "copy" });
+  copy.classList.add("copy");
+  copy.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(el.src); }
+    catch { const ta = h("textarea", { style: { position: "fixed", opacity: "0" } }); ta.value = el.src; document.body.append(ta); ta.select(); document.execCommand("copy"); ta.remove(); }
+    copy.lastChild.textContent = "Copied";
+    setTimeout(() => (copy.lastChild.textContent = "Copy"), 1400);
+  });
+  el.append(copy);
+  el.update = s => { el.src = s.trim(); pre.innerHTML = highlight(el.src, lang); };
+  el.update(src);
+  return el;
+}
+
+/* =====================================================================
+   Pages (one GlassPage each)
+   ===================================================================== */
+const NAV = [
+  { id: "overview", label: "Overview", icon: "star", color: "#007AFF" },
+  { id: "forms", label: "Forms", icon: "share", color: "#8E8E93" },
+  { id: "buttons", label: "Buttons", icon: "cursor", color: "#FF9F0A" },
+  { id: "switches", label: "Switches", icon: "toggle", color: "#34C759" },
+  { id: "inputs", label: "Inputs", icon: "textformat", color: "#5E5CE6" },
+  { id: "menus", label: "Menus", icon: "list", color: "#30B0C7" },
+  { id: "dialogs", label: "Dialogs", icon: "stack", color: "#BF5AF2" },
+  { id: "glass", label: "Glass", icon: "drop", color: "#5AC8FA" },
+  { id: "feedback", label: "Feedback", icon: "bubble", color: "#FF375F" },
+  { id: "theme", label: "Theme", icon: "palette", color: "#A2845E" },
+  { id: "window", label: "Window", icon: "window", color: "#636366" },
+];
+
+/** GlassPage — back button, title and actions share the title bar band. */
+function Page({ title, actions = [], body }) {
+  const back = IconButton({ name: "chevL", glass: true, size: 30, iconSize: 14, label: "Back", onClick: () => go("") });
+  back.classList.add("page-back");
+  const scroller = h("div", { class: "page-body" }, h("div", { class: "inner" }, body));
+  return h("div", { class: "page" },
+    h("div", { class: "page-tb", "data-drag": "" }, back, h("div", { class: "page-title", role: "heading", "aria-level": "1" }, title), actions.length ? h("div", { class: "page-actions" }, actions) : null),
+    scroller);
+}
+
+const PAGES = {
+  overview() {
+    const features = [
+      ["Translucent sidebar with real macOS vibrancy, a search field and coloured icon tiles", "sidebar", "#007AFF", "window"],
+      ["Page title and back button inside the window's title bar, next to the traffic lights", "window", "#636366", "window"],
+      ["Grouped, rounded form sections with hairline separators", "list", "#8E8E93", "forms"],
+      ["Glass toolbar capsules, accent capsules and grey “bezel” buttons", "cursor", "#FF9F0A", "buttons"],
+      ["Switches measured from System Settings (pill-shaped knob, 36 × 16 pt)", "toggle", "#34C759", "switches"],
+      ["Pop-up buttons with glass menus, segmented control, calendar date picker", "calendar", "#FF3B30", "inputs"],
+      ["Glass alerts and sheets, tooltips, spinner", "stack", "#BF5AF2", "dialogs"],
+      ["Light and dark themes, custom accent colour", "palette", "#A2845E", "theme"],
+      ["No Material or Cupertino app required", "check", "#30B0C7", "window"],
+    ];
+    const areas = [
+      ["App & window", [["GlassApp", "theme"], ["GlassWindowConfig", "window"], ["GlassWindow", "window"], ["GlassTitlebarPassthrough", "window"]]],
+      ["Navigation", [["GlassSidebar", "window"], ["GlassSidebarItem", "window"], ["GlassIconTile", "forms"], ["GlassPage", "window"]]],
+      ["Forms", [["GlassFormSection", "forms"], ["GlassFormRow", "forms"], ["GlassGroup", "forms"]]],
+      ["Buttons", [["GlassButton", "buttons"], ["GlassIconButton", "buttons"], ["GlassInfoButton", "buttons"]]],
+      ["Inputs", [["GlassTextField", "inputs"], ["GlassPopupButton", "inputs"], ["GlassSegmentedControl", "inputs"], ["GlassSwitch", "switches"], ["GlassDateField", "inputs"], ["GlassCalendar", "inputs"]]],
+      ["Overlays", [["showGlassMenu", "menus"], ["showGlassAlert", "dialogs"], ["showGlassSheet", "dialogs"], ["GlassTooltip", "feedback"]]],
+      ["Feedback", [["GlassSpinner", "feedback"]]],
+      ["Building blocks", [["GlassSurface", "glass"], ["GlassPressable", "glass"], ["GlassTheme", "theme"], ["GlassThemeData", "theme"], ["GlassIcons", "window"]]],
+    ];
+    const install = h("div", { id: "install" });
+    return Page({
+      title: "Overview",
+      actions: [Button({ label: "pub.dev", style: "glass", iconName: "box", onClick: () => open(LINKS.pub) }), Button({ label: "Get started", style: "primary", onClick: () => install.scrollIntoView({ behavior: "smooth", block: "start" }) })],
+      body: [
+        h("div", { class: "hero" },
+          IconTile("drop", "var(--accent)", 76),
+          h("div", { style: { flex: "1 1 280px", minWidth: "0" } },
+            h("h1", {}, "macos_glass"),
+            h("p", {}, "macOS 26 “Liquid Glass” widgets for Flutter desktop apps — built to look like today's System Settings, not the 2020 Big Sur design most macOS packages still follow."),
+            h("div", { class: "meta" }, h("span", { class: "chip acc" }, "v" + VERSION), h("span", { class: "chip" }, "MIT"), h("span", { class: "chip" }, "Flutter ≥ 3.35"), h("span", { class: "chip" }, "Dart ≥ 3.9"), h("span", { class: "chip" }, "macOS")),
+            h("div", { class: "btns" },
+              Button({ label: "Try the widgets", style: "primary", onClick: () => go("forms") }),
+              Button({ label: "GitHub", iconName: "code", onClick: () => open(LINKS.github) }),
+              Button({ label: "API reference", style: "plain", iconName: "book", onClick: () => open(LINKS.docs) })))),
+        Section({ title: "What's inside", rows: features.map(([t, ic, c, to]) => Row({ label: t, leading: IconTile(ic, c, 26), onClick: () => go(to), chevron: true })),
+          footer: "Everything in this window is interactive. Click a row to try it." }),
+        install,
+        Section({ title: "Install", rows: [h("div", { class: "block" },
+          h("div", { class: "caption", style: { marginBottom: "6px" } }, "Add it with the Flutter CLI:"),
+          CodeBlock("flutter pub add macos_glass", "shell"),
+          h("div", { class: "caption", style: { margin: "12px 0 6px" } }, "or in pubspec.yaml:"),
+          CodeBlock(`dependencies:\n  macos_glass: ^${VERSION}`, "yaml"),
+          h("div", { class: "caption", style: { marginTop: "10px" } }, "Minimum: Flutter 3.35 (Dart 3.9), macOS deployment target 10.14.6 (Flutter's default 12.0 is fine)."))] }),
+        Section({ title: "Quick start", rows: [h("div", { class: "block" }, CodeBlock(`import 'package:flutter/cupertino.dart' show CupertinoIcons;
+import 'package:flutter/widgets.dart';
+import 'package:macos_glass/macos_glass.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Full-size content view, transparent unified title bar, sidebar vibrancy.
+  await const GlassWindowConfig(minSize: Size(900, 600)).apply();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassApp(
+      title: 'My App',
+      home: GlassWindow(
+        sidebar: GlassSidebar(
+          selectedIndex: 0,
+          onSelect: (i) {},
+          items: const [
+            GlassSidebarItem(icon: CupertinoIcons.share, label: 'Sharing'),
+          ],
+        ),
+        child: GlassPage(
+          title: 'Sharing',
+          body: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              GlassFormSection(title: 'Content & Media', children: [
+                GlassFormRow(
+                  leading: const GlassIconTile(
+                    icon: CupertinoIcons.folder_fill,
+                    color: Color(0xFF32ADE6),
+                    size: 26,
+                  ),
+                  label: 'File Sharing',
+                  trailing: GlassSwitch(value: false, onChanged: (_) {}),
+                ),
+              ]),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}`))] }),
+        Section({ title: "Run the gallery app", rows: [h("div", { class: "block" }, CodeBlock(`git clone ${LINKS.github}.git\ncd macos_glass/example\nflutter create --platforms=macos .\nflutter run -d macos`, "shell"))],
+          footer: "It recreates the System Settings Sharing pane plus a controls and dialogs page." }),
+        Section({ title: "All widgets", rows: areas.map(([area, ws]) => Row({ label: area, trailing: ws.map(([w, to]) => Button({ label: w, size: "small", onClick: () => go(to) })) })) }),
+        h("div", { class: "foot-links" },
+          h("a", { href: LINKS.pub, target: "_blank", rel: "noopener" }, "pub.dev"),
+          h("a", { href: LINKS.github, target: "_blank", rel: "noopener" }, "GitHub"),
+          h("a", { href: LINKS.docs, target: "_blank", rel: "noopener" }, "API reference"),
+          h("a", { href: LINKS.issues, target: "_blank", rel: "noopener" }, "Report an issue"),
+          h("span", { class: "fill" }),
+          h("span", { class: "caption" }, "MIT © 2026 Mostafijur Rahman")),
+      ],
+    });
+  },
+
+  forms() {
+    const on = { "Screen Sharing": true };
+    const infoSheet = label => showGlassSheet({
+      maxWidth: 420, barrierDismissible: true, build: close => h("div", { style: { padding: "20px" } },
+        h("div", { style: { fontSize: "15px", fontWeight: "700" } }, label),
+        h("p", { class: "caption", style: { margin: "8px 0 14px", fontSize: "12px" } }, "GlassInfoButton is the circled “i” System Settings shows next to a switch. Here it opens showGlassSheet with barrierDismissible: true — click outside or press Esc to close."),
+        Group(Row({ label: "Allow full disk access", trailing: Switch({ value: true, label: "Allow full disk access" }) }), Row({ label: "Only these users", trailing: PopupButton({ value: "admins", width: "150px", items: [{ value: "all", label: "All Users" }, { value: "admins", label: "Administrators" }, { value: "me", label: "Only Me" }] }) })),
+        h("div", { style: { display: "flex", justifyContent: "flex-end", marginTop: "18px" } }, Button({ label: "Done", style: "primary", onClick: () => close() }))),
+    });
+    const share = (label, ic, color) => Row({
+      leading: IconTile(ic, color, 26), label,
+      trailing: [Switch({ value: !!on[label], label, onChange: v => (on[label] = v) }), h("span", { style: { width: "4px" } }), InfoButton({ onClick: () => infoSheet(label), label: label + " options" })],
+    });
+    // "Open at Login": add / remove rows to show sections are just widget lists.
+    const apps = [["Mail", "mail", "#0A84FF"], ["Calendar", "calendar", "#FF3B30"]];
+    const extra = [["Photos", "photo", "#FF9F0A"], ["Notes", "note", "#FFCC00"], ["Music", "music", "#FF2D55"], ["Finder", "folder", "#32ADE6"]];
+    let loginSec;
+    const renderLogin = () => {
+      loginSec.group.replaceChildren(...(apps.length ? apps.map((a, i) => Row({ leading: IconTile(a[1], a[2], 22), label: a[0], trailing: IconButton({ name: "minus", label: "Remove " + a[0], onClick: () => { extra.push(apps.splice(i, 1)[0]); renderLogin(); } }) })) : [h("div", { class: "grow caption" }, "No items. Press + to add one.")]));
+    };
+    loginSec = Section({
+      title: "Open at Login",
+      trailing: IconButton({ name: "plus", label: "Add item", onClick: () => { if (extra.length) { apps.push(extra.shift()); renderLogin(); } } }),
+      footer: "These items will open automatically when you log in. (GlassFormSection with trailing and footer.)",
+      rows: [],
+      code: `GlassFormSection(
+  title: 'Open at Login',
+  trailing: GlassIconButton(
+    icon: CupertinoIcons.plus,
+    onPressed: addItem,
+  ),
+  footer: 'These items will open automatically when you log in.',
+  children: [
+    for (final app in apps)
+      GlassFormRow(
+        leading: GlassIconTile(icon: app.icon, color: app.color),
+        label: app.name,
+        trailing: GlassIconButton(
+          icon: CupertinoIcons.minus,
+          onPressed: () => remove(app),
+        ),
+      ),
+  ],
+)`,
+    });
+    renderLogin();
+    return Page({
+      title: "Forms",
+      body: [
+        h("p", { class: "caption", style: { margin: "0 10px 16px", fontSize: "12px" } }, "The System Settings › Sharing pane, rebuilt with GlassFormSection, GlassFormRow, GlassIconTile, GlassSwitch and GlassInfoButton."),
+        Section({
+          title: "Content & Media",
+          rows: [share("File Sharing", "folder", "#32ADE6"), share("Media Sharing", "music", "#FF9F0A"), share("Screen Sharing", "screens", "#5E5CE6"), share("Content Caching", "download", "#8E8E93")],
+          code: `GlassFormSection(title: 'Content & Media', children: [
+  GlassFormRow(
+    leading: const GlassIconTile(
+      icon: CupertinoIcons.folder_fill,
+      color: Color(0xFF32ADE6),
+      size: 26,
+    ),
+    label: 'File Sharing',
+    trailing: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GlassSwitch(
+          value: fileSharing,
+          onChanged: (v) => setState(() => fileSharing = v),
+        ),
+        const SizedBox(width: 12),
+        GlassInfoButton(onPressed: showOptions),
+      ],
+    ),
+  ),
+  // …
+])`,
+        }),
+        Section({ title: "Accessories & Internet", rows: [share("Bluetooth Sharing", "bluetooth", "#0A84FF"), share("Printer Sharing", "printer", "#8E8E93"), share("Internet Sharing", "globe", "#0A84FF")] }),
+        Section({
+          title: "Rows with descriptions",
+          rows: [
+            Row({ label: "Remote Login", sub: "Lets users of other computers access this Mac using SSH.", trailing: Switch({ label: "Remote Login" }) }),
+            Row({ label: "Local hostname", sub: "Computers on your local network can access this Mac at this address.", trailing: Button({ label: "Edit…" }) }),
+          ],
+          code: `GlassFormRow(
+  label: 'Remote Login',
+  subtitle: 'Lets users of other computers access this Mac using SSH.',
+  trailing: GlassSwitch(value: ssh, onChanged: (v) => setState(() => ssh = v)),
+)`,
+        }),
+        loginSec,
+        Section({
+          title: "GlassGroup on its own",
+          rows: [h("div", { class: "block caption", style: { fontSize: "12px" } }, "GlassGroup is the rounded box without a heading. Set dividers: false to drop the hairlines, or change padding for custom content.")],
+          code: `GlassGroup(
+  dividers: false,
+  padding: const EdgeInsets.all(16),
+  children: [
+    Text('Any widget', style: GlassTheme.of(context).body),
+  ],
+)`,
+        }),
+      ],
+    });
+  },
+
+  buttons() {
+    let status;
+    const report = (label, style, size) => { status.innerHTML = `Pressed <b>${esc(label)}</b> — GlassButtonStyle.${style}, GlassControlSize.${size}`; };
+    const styles = [
+      ["primary", "Save", "Accent capsule — the main action."],
+      ["bezel", "Edit…", "Grey rounded button used inside content."],
+      ["glass", "Share", "Translucent capsule used in the title bar."],
+      ["destructive", "Delete", "Red, for destructive confirmations."],
+      ["plain", "Learn More", "Text only, no background until hovered."],
+    ];
+    const sec = Section({
+      title: "Styles × sizes",
+      rows: styles.map(([s, l, d]) => Row({ label: s, sub: d, trailing: ["small", "regular", "large"].map(z => Button({ label: l, style: s, size: z, onClick: () => report(l, s, z) })) })),
+      footer: "Press a button.",
+      code: `GlassButton(
+  style: GlassButtonStyle.primary,   // bezel (default), glass, destructive, plain
+  size: GlassControlSize.regular,    // small: 22 pt, regular: 28 pt, large: 34 pt
+  onPressed: save,
+  child: const Text('Save'),
+)`,
+    });
+    status = sec.foot; status.classList.add("status");
+    return Page({
+      title: "Buttons",
+      actions: [Button({ label: "Share", style: "glass", onClick: () => report("Share", "glass", "regular") }), Button({ label: "Save", style: "primary", onClick: () => report("Save", "primary", "regular") })],
+      body: [
+        sec,
+        Section({ title: "Disabled", rows: [Row({ label: "onPressed: null", sub: "Buttons fade to 42% and ignore input.", trailing: styles.map(([s, l]) => Button({ label: l, style: s, disabled: true })) })],
+          code: `GlassButton(onPressed: null, child: const Text('Save')) // disabled` }),
+        Section({ title: "Expanded", rows: [h("div", { class: "block", style: { display: "flex", gap: "8px" } }, Button({ label: "Cancel", expand: true, onClick: () => report("Cancel", "bezel", "regular") }), Button({ label: "Continue", style: "primary", expand: true, onClick: () => report("Continue", "primary", "regular") }))],
+          footer: "expand: true fills the available width, like alert buttons.",
+          code: `Row(children: [
+  Expanded(child: GlassButton(expand: true, onPressed: cancel, child: const Text('Cancel'))),
+  const SizedBox(width: 8),
+  Expanded(
+    child: GlassButton(
+      expand: true,
+      style: GlassButtonStyle.primary,
+      onPressed: next,
+      child: const Text('Continue'),
+    ),
+  ),
+])` }),
+        Section({
+          title: "Icon buttons",
+          rows: [
+            Row({ label: "GlassIconButton", sub: "Plain round button for content.", trailing: [["plus", "Add"], ["trash", "Delete"], ["share", "Share"], ["ellipsis", "More"]].map(([n, l]) => IconButton({ name: n, label: l, onClick: () => report(l, "icon", "28 pt") })) }),
+            Row({ label: "glass: true", sub: "Glass circle for the title bar.", trailing: [IconButton({ name: "chevL", glass: true, size: 30, iconSize: 14, label: "Back", onClick: () => report("Back", "glass icon", "30 pt") }), IconButton({ name: "chevR", glass: true, size: 30, iconSize: 14, label: "Forward", onClick: () => report("Forward", "glass icon", "30 pt") }), IconButton({ name: "plus", glass: true, size: 30, iconSize: 14, label: "New", onClick: () => report("New", "glass icon", "30 pt") })] }),
+            Row({ label: "GlassInfoButton", sub: "The circled “i” next to switches.", trailing: InfoButton({ onClick: () => report("Info", "info", "18 pt") }) }),
+          ],
+          code: `GlassIconButton(icon: CupertinoIcons.trash, onPressed: delete)
+
+GlassIconButton(
+  icon: CupertinoIcons.chevron_left,
+  glass: true,
+  size: 30,
+  iconSize: 14,
+  onPressed: () => Navigator.of(context).maybePop(),
+)
+
+GlassInfoButton(onPressed: showDetails)`,
+        }),
+      ],
+    });
+  },
+
+  switches() {
+    let shared = false;
+    const linked = [];
+    const sizeRow = s => { const sw = Switch({ size: s, value: shared, label: s, onChange: v => { shared = v; linked.forEach(x => x.set(v)); } }); linked.push(sw); return Row({ label: s, sub: { mini: "28 × 12 pt — dense tables.", regular: "36 × 16 pt — the size System Settings uses (default).", large: "46 × 21 pt — touch-friendly / prominent toggles." }[s], trailing: sw }); };
+    return Page({
+      title: "Switches",
+      body: [
+        Section({ title: "Sizes", rows: ["mini", "regular", "large"].map(sizeRow), footer: "These three share one value, so flipping one flips them all. Press and hold to see the knob stretch toward where it will go.",
+          code: `GlassSwitch(
+  value: enabled,
+  size: GlassSwitchSize.regular, // mini, regular, large
+  onChanged: (v) => setState(() => enabled = v),
+)` }),
+        Section({ title: "States", rows: [
+          Row({ label: "Off", trailing: Switch({ label: "Off" }) }),
+          Row({ label: "On", trailing: Switch({ value: true, label: "On" }) }),
+          Row({ label: "Disabled", sub: "onChanged: null", trailing: [Switch({ disabled: true, label: "Disabled off" }), Switch({ disabled: true, value: true, label: "Disabled on" })] }),
+        ], code: `GlassSwitch(value: true, onChanged: null) // disabled` }),
+        Section({ title: "Custom colour", rows: [
+          Row({ label: "activeColor", sub: "Defaults to the theme accent.", trailing: [["#32D74B", "Green"], ["#FF9F0A", "Orange"], ["#FF375F", "Pink"], ["#BF5AF2", "Purple"]].map(([c, n]) => Switch({ value: true, activeColor: c, label: n })) }),
+        ], code: `GlassSwitch(
+  value: on,
+  activeColor: const Color(0xFF32D74B),
+  onChanged: (v) => setState(() => on = v),
+)` }),
+      ],
+    });
+  },
+
+  inputs() {
+    let counter, echo, calEcho;
+    const textSec = Section({
+      title: "Text fields",
+      rows: [
+        h("div", { class: "block" }, TextField({ placeholder: "Type something…", onInput: v => (counter.textContent = `${v.length} character${v.length === 1 ? "" : "s"}`) })),
+        Row({ label: "Search", sub: "capsule: true, prefixIcon", trailing: h("div", { style: { width: "220px", maxWidth: "100%" } }, TextField({ placeholder: "Search", capsule: true, prefixIcon: "search" })) }),
+        h("div", { class: "block" }, h("div", { style: { marginBottom: "6px" } }, "Notes"), TextField({ placeholder: "Multi-line (maxLines: 4)", multiline: true, minLines: 3 })),
+        Row({ label: "Disabled", sub: "enabled: false", trailing: h("div", { style: { width: "220px", maxWidth: "100%" } }, TextField({ placeholder: "Can't edit", disabled: true })) }),
+      ],
+      footer: "0 characters",
+      code: `GlassTextField(
+  placeholder: 'Type something…',
+  onChanged: (v) => setState(() => text = v),
+)
+
+GlassTextField(
+  capsule: true,
+  prefixIcon: GlassIcons.search,
+  placeholder: 'Search',
+)
+
+GlassTextField(maxLines: 4, minLines: 3, placeholder: 'Notes')`,
+    });
+    counter = textSec.foot;
+    const fn = [
+      { value: "Do Nothing", label: "Do Nothing" },
+      { value: "Change Input Source", label: "Change Input Source" },
+      { value: "Show Emoji & Symbols", label: "Show Emoji & Symbols" },
+      { value: "Start Dictation", label: "Start Dictation" },
+    ];
+    const popSec = Section({
+      title: "Pop-up button",
+      rows: [
+        Row({ label: "Press fn key to", trailing: PopupButton({ value: "Do Nothing", items: fn, width: "200px", onChange: v => (echo.innerHTML = `onChanged → <b>${esc(v)}</b>`) }) }),
+        Row({ label: "With placeholder", sub: "value: null", trailing: PopupButton({ value: null, placeholder: "Choose a voice…", width: "200px", items: [{ value: "a", label: "Ava" }, { value: "z", label: "Zoe" }, { value: "e", label: "Evan" }, { value: "x", label: "Siri (unavailable)", enabled: false }], onChange: v => (echo.innerHTML = `onChanged → <b>${esc(v)}</b>`) }) }),
+        Row({ label: "Disabled", trailing: PopupButton({ value: "Do Nothing", items: fn, width: "200px", disabled: true }) }),
+      ],
+      footer: "Pick an option. Use ↑ ↓ Return in the menu, or Esc to close.",
+      code: `GlassPopupButton<String>(
+  value: fnKey,
+  items: const [
+    GlassMenuItem(value: 'Do Nothing', label: 'Do Nothing'),
+    GlassMenuItem(value: 'Change Input Source', label: 'Change Input Source'),
+    GlassMenuItem(value: 'Show Emoji & Symbols', label: 'Show Emoji & Symbols'),
+    GlassMenuItem(value: 'Start Dictation', label: 'Start Dictation'),
+  ],
+  onChanged: (v) => setState(() => fnKey = v),
+)`,
+    });
+    echo = popSec.foot; echo.classList.add("status");
+    const appearance = Segmented({ label: "Appearance", value: theme.mode, segments: [{ value: "system", label: "Auto" }, { value: "light", label: "Light" }, { value: "dark", label: "Dark" }], onChange: v => setTheme({ mode: v }) });
+    onTheme(() => appearance.set(theme.mode));
+    let date = new Date();
+    const calSec = Section({ title: "Calendar", rows: [h("div", { style: { padding: "10px 0", maxWidth: "290px" } }, Calendar({ selected: date, onChange: d => (calEcho.innerHTML = `Selected <b>${fmtDate(d)}</b>`) }))],
+      footer: "Click the month name to jump back to today.",
+      code: `GlassCalendar(
+  selected: date,
+  onChanged: (d) => setState(() => date = d),
+  // monthNames / weekdayNames / firstDayOfWeek for other languages
+)` });
+    calEcho = calSec.foot; calEcho.classList.add("status");
+    return Page({
+      title: "Inputs",
+      body: [
+        textSec, popSec,
+        Section({ title: "Segmented control", rows: [
+          Row({ label: "Appearance", sub: "This one really switches the page's theme.", trailing: appearance }),
+          Row({ label: "View as", trailing: Segmented({ value: 1, label: "View as", segments: [{ value: 0, label: "Icons" }, { value: 1, label: "List" }, { value: 2, label: "Columns" }, { value: 3, label: "Gallery" }] }) }),
+        ], code: `GlassSegmentedControl<int>(
+  value: appearance,
+  onChanged: (v) => setState(() => appearance = v),
+  segments: const [
+    GlassSegment(value: 0, label: 'Auto'),
+    GlassSegment(value: 1, label: 'Light'),
+    GlassSegment(value: 2, label: 'Dark'),
+  ],
+)` }),
+        Section({ title: "Date field", rows: [Row({ label: "Date", sub: "Opens a calendar popover.", trailing: DateField({ value: date }) })],
+          code: `GlassDateField(
+  value: date,
+  label: '\${date.day} \${kGlassMonthNames[date.month - 1].substring(0, 3)} \${date.year}',
+  onChanged: (v) => setState(() => date = v),
+)` }),
+        calSec,
+      ],
+    });
+  },
+
+  menus() {
+    let sortStatus, ctxStatus;
+    let sort = "name";
+    const sortItems = [{ value: "name", label: "Name" }, { value: "kind", label: "Kind" }, { value: "date", label: "Date Modified" }, { value: "size", label: "Size" }];
+    const sortLabel = h("span", {}, "Name");
+    const sortBtn = h("button", { class: "gbtn bezel", type: "button", "aria-haspopup": "menu" }, "Sort by ", sortLabel, icon("chevD", 10, 2.6));
+    sortBtn.addEventListener("click", async () => {
+      const r = await showGlassMenu({ anchor: sortBtn.getBoundingClientRect(), items: sortItems, selected: sort, hasSelection: true, root: rootFor(sortBtn) });
+      if (r) { sort = r.value; sortLabel.textContent = r.label; sortStatus.innerHTML = `Returned <b>GlassMenuItem(value: '${r.value}')</b>`; }
+      else sortStatus.innerHTML = "Returned <b>null</b> (dismissed)";
+    });
+    const area = h("div", { class: "ctx-area", tabindex: "0" }, h("div", {}, h("div", { style: { fontWeight: "600", color: "var(--label)", marginBottom: "4px" } }, "Right-click here"), "or long-press on a touch screen"));
+    const ctxItems = [{ value: "open", label: "Open" }, { value: "rename", label: "Rename…" }, { value: "duplicate", label: "Duplicate" }, { value: "info", label: "Get Info", enabled: false }, { value: "trash", label: "Move to Trash" }];
+    const openCtx = async (x, y) => {
+      const r = await showGlassMenu({ anchor: new DOMRect(x, y, 0, 0), items: ctxItems, root: rootFor(area) });
+      ctxStatus.innerHTML = r ? `Chose <b>${esc(r.label)}</b>` : "Dismissed";
+    };
+    area.addEventListener("contextmenu", e => { e.preventDefault(); openCtx(e.clientX, e.clientY); });
+    let lp;
+    area.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") { const { clientX: x, clientY: y } = e; lp = setTimeout(() => openCtx(x, y), 480); } });
+    ["pointerup", "pointercancel", "pointermove"].forEach(t => area.addEventListener(t, e => { if (t !== "pointermove" || Math.abs(e.movementX) + Math.abs(e.movementY) > 4) clearTimeout(lp); }));
+    area.addEventListener("keydown", e => { if (e.key === "Enter" || (e.shiftKey && e.key === "F10")) { const r = area.getBoundingClientRect(); openCtx(r.left + r.width / 2, r.top + r.height / 2); } });
+    const s1 = Section({ title: "Menu from a button", rows: [Row({ label: "Sort files", sub: "hasSelection: true shows a check column.", trailing: sortBtn })], footer: "Open the menu.",
+      code: `final item = await showGlassMenu<String>(
+  context,
+  anchor: box.localToGlobal(Offset.zero) & box.size,
+  selected: sort,
+  hasSelection: true,
+  items: const [
+    GlassMenuItem(value: 'name', label: 'Name'),
+    GlassMenuItem(value: 'kind', label: 'Kind'),
+    GlassMenuItem(value: 'date', label: 'Date Modified'),
+    GlassMenuItem(value: 'size', label: 'Size'),
+  ],
+);
+if (item != null) setState(() => sort = item.value);` });
+    sortStatus = s1.foot; sortStatus.classList.add("status");
+    const s2 = Section({ title: "Context menu", rows: [h("div", {}, area)], footer: "Nothing chosen yet.",
+      code: `GestureDetector(
+  onSecondaryTapDown: (d) async {
+    final item = await showGlassMenu<String>(
+      context,
+      anchor: d.globalPosition & Size.zero,
+      items: const [
+        GlassMenuItem(value: 'open', label: 'Open'),
+        GlassMenuItem(value: 'rename', label: 'Rename…'),
+        GlassMenuItem(value: 'duplicate', label: 'Duplicate'),
+        GlassMenuItem(value: 'info', label: 'Get Info', enabled: false),
+        GlassMenuItem(value: 'trash', label: 'Move to Trash'),
+      ],
+    );
+  },
+  child: fileTile,
+)` });
+    ctxStatus = s2.foot; ctxStatus.classList.add("status");
+    return Page({
+      title: "Menus",
+      body: [s1, s2, Section({ title: "Good to know", rows: [
+        Row({ label: "Placement", sub: "Opens below the anchor when it fits, otherwise above, and stays 8 pt inside the window." }),
+        Row({ label: "Keyboard", sub: "Esc closes the menu and returns null." }),
+        Row({ label: "Pop-up buttons", sub: "GlassPopupButton uses the same menu.", trailing: Button({ label: "See Inputs", size: "small", onClick: () => go("inputs") }) }),
+      ] })],
+    });
+  },
+
+  dialogs() {
+    let alertStatus, folders;
+    const names = ["Projects"];
+    const renderFolders = () => folders.group.replaceChildren(...names.map(n => Row({ leading: IconTile("folder", "#32ADE6", 22), label: n })));
+    const newFolder = () => showGlassSheet({
+      maxWidth: 420,
+      build: close => {
+        const field = TextField({ placeholder: "Name", autofocus: true, onEnter: v => create(v) });
+        const create = v => { v = (v || field.input.value).trim(); if (v) { names.push(v); renderFolders(); } close(); };
+        return h("div", { style: { padding: "20px" } },
+          h("div", { style: { fontSize: "15px", fontWeight: "700" } }, "New Folder"),
+          h("div", { style: { height: "14px" } }), field, h("div", { style: { height: "18px" } }),
+          h("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px" } }, Button({ label: "Cancel", onClick: () => close() }), Button({ label: "Create", style: "primary", onClick: () => create() })));
+      },
+    });
+    const a1 = Section({
+      title: "Alerts",
+      rows: [
+        Row({ label: "Destructive", sub: "Two buttons, red primary.", trailing: Button({ label: "Show alert", onClick: async () => {
+          const ok = await showGlassAlert({ title: "Delete “Invoice 42”?", message: "This item will be deleted immediately. You can’t undo this action.", primaryLabel: "Delete", secondaryLabel: "Cancel", destructive: true, iconTile: IconTile("trash", "#FF453A", 44) });
+          alertStatus.innerHTML = `showGlassAlert returned <b>${ok}</b>`;
+        } }) }),
+        Row({ label: "Information", sub: "One accent button.", trailing: Button({ label: "Show alert", onClick: async () => {
+          const ok = await showGlassAlert({ title: "Update available", message: `macos_glass ${VERSION} is installed. Read the changelog to see what's new.`, primaryLabel: "OK", iconTile: IconTile("info", "#0A84FF", 44) });
+          alertStatus.innerHTML = `showGlassAlert returned <b>${ok}</b>`;
+        } }) }),
+      ],
+      footer: "Returns true for the primary button.",
+      code: `final delete = await showGlassAlert(
+  context,
+  title: 'Delete “Invoice 42”?',
+  message: 'This item will be deleted immediately. You can’t undo this action.',
+  primaryLabel: 'Delete',
+  secondaryLabel: 'Cancel',
+  destructive: true,
+  icon: const GlassIconTile(
+    icon: CupertinoIcons.trash,
+    color: Color(0xFFFF453A),
+    size: 44,
+  ),
+);`,
+    });
+    alertStatus = a1.foot; alertStatus.classList.add("status");
+    folders = Section({ title: "Your folders", rows: [], footer: "Folders you create in the sheet appear here." });
+    renderFolders();
+    return Page({
+      title: "Dialogs",
+      body: [
+        a1,
+        Section({
+          title: "Sheets",
+          rows: [
+            Row({ label: "New Folder", sub: "Text field + buttons. Press Return to create.", trailing: Button({ label: "Show sheet", onClick: newFolder }) }),
+            Row({ label: "Settings sheet", sub: "barrierDismissible: true — click outside to close.", trailing: Button({ label: "Show sheet", onClick: () => showGlassSheet({
+              maxWidth: 460, barrierDismissible: true, build: close => h("div", { style: { padding: "20px" } },
+                h("div", { style: { fontSize: "15px", fontWeight: "700", marginBottom: "14px" } }, "Export"),
+                Group(Row({ label: "Format", trailing: PopupButton({ value: "pdf", width: "130px", items: [{ value: "pdf", label: "PDF" }, { value: "png", label: "PNG" }, { value: "csv", label: "CSV" }] }) }), Row({ label: "Include notes", trailing: Switch({ value: true, label: "Include notes" }) }), Row({ label: "Quality", trailing: Segmented({ value: 1, label: "Quality", segments: [{ value: 0, label: "Draft" }, { value: 1, label: "Best" }] }) })),
+                h("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", marginTop: "18px" } }, Button({ label: "Cancel", onClick: () => close() }), Button({ label: "Export", style: "primary", onClick: () => close() }))),
+            }) }) }),
+          ],
+          code: `showGlassSheet<void>(
+  context,
+  maxWidth: 420,
+  builder: (ctx) => Padding(
+    padding: const EdgeInsets.all(20),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text('New Folder', style: GlassTheme.of(ctx).title),
+        const SizedBox(height: 14),
+        const GlassTextField(placeholder: 'Name', autofocus: true),
+        const SizedBox(height: 18),
+        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          GlassButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+          const SizedBox(width: 8),
+          GlassButton(
+            style: GlassButtonStyle.primary,
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Create'),
+          ),
+        ]),
+      ],
+    ),
+  ),
+);`,
+        }),
+        folders,
+      ],
+    });
+  },
+
+  glass() {
+    const cfg = { blur: 24, e: 1, shape: "capsule", tint: "default" };
+    const surface = h("div", { class: "glass gs-surface" },
+      IconButton({ name: "chevL", label: "Back" }), IconButton({ name: "chevR", label: "Forward" }), h("span", {}, "Liquid Glass"), IconButton({ name: "share", label: "Share" }), IconButton({ name: "plus", label: "Add" }));
+    surface.querySelectorAll(".gicon").forEach(b => (b.style.color = "var(--label)"));
+    const stage = h("div", { class: "glass-stage" },
+      h("div", { class: "gs-blob", style: { width: "180px", height: "180px", left: "8%", top: "10%", background: "#ffb347" } }),
+      h("div", { class: "gs-blob", style: { width: "140px", height: "140px", right: "10%", top: "45%", background: "#34e89e", animationDelay: "-5s" } }),
+      h("div", { class: "gs-blob", style: { width: "110px", height: "110px", left: "45%", bottom: "-30px", background: "#ff5e62", animationDelay: "-9s" } }),
+      h("div", { class: "word" }, "Glass"), surface);
+    const code = CodeBlock("");
+    const render = () => {
+      surface.style.setProperty("--blur", cfg.blur + "px");
+      surface.classList.remove("e0", "e2", "e3"); if (cfg.e !== 1) surface.classList.add("e" + cfg.e);
+      surface.style.borderRadius = cfg.shape === "capsule" ? "999px" : "16px";
+      surface.style.setProperty("--tint", cfg.tint === "menu" ? "var(--menu-tint)" : "var(--glass-tint)");
+      const lines = ["GlassSurface("];
+      if (cfg.shape !== "capsule") lines.push("  borderRadius: BorderRadius.circular(16),");
+      if (cfg.blur !== 24) lines.push(`  blur: ${cfg.blur},`);
+      if (cfg.e !== 1) lines.push(`  elevation: ${cfg.e},`);
+      if (cfg.tint === "menu") lines.push("  tint: GlassTheme.of(context).menuTint,");
+      lines.push("  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),", "  child: toolbar,", ")");
+      code.update(lines.join("\n"));
+    };
+    const seg = (key, label, opts) => Segmented({ label, value: cfg[key], segments: opts.map(([v, l]) => ({ value: v, label: l })), onChange: v => { cfg[key] = v; render(); } });
+    render();
+    const tipBtn = Tooltip(Button({ label: "Hover me" }), "GlassTooltip uses a small GlassSurface");
+    return Page({
+      title: "Glass",
+      actions: [Button({ label: "Toolbar capsule", style: "glass" })],
+      body: [
+        Section({ title: "GlassSurface playground", rows: [
+          h("div", {}, stage),
+          Row({ label: "Blur (sigma)", trailing: seg("blur", "Blur", [[0, "0"], [8, "8"], [16, "16"], [24, "24"], [40, "40"]]) }),
+          Row({ label: "Elevation", sub: "0 flat · 1 toolbar · 2 menu · 3 sheet", trailing: seg("e", "Elevation", [[0, "0"], [1, "1"], [2, "2"], [3, "3"]]) }),
+          Row({ label: "Shape", trailing: seg("shape", "Shape", [["capsule", "Capsule"], ["rounded", "Rounded"]]) }),
+          Row({ label: "Tint", trailing: seg("tint", "Tint", [["default", "glassTint"], ["menu", "menuTint"]]) }),
+          h("div", { class: "block" }, code),
+        ], footer: "Backdrop blur + tint + a sheen on the top half + a hairline edge + a soft shadow." }),
+        Section({ title: "Where the package uses it", rows: [
+          Row({ label: "Toolbar capsules", sub: "GlassButtonStyle.glass, GlassIconButton(glass: true)", trailing: [Button({ label: "Share", style: "glass" }), IconButton({ name: "plus", glass: true, size: 30, iconSize: 14, label: "Add" })] }),
+          Row({ label: "Menus", sub: "elevation: 2, menuTint", trailing: Button({ label: "Open menu", onClick: e => showGlassMenu({ anchor: e.currentTarget.getBoundingClientRect(), items: [{ value: 1, label: "Cut" }, { value: 2, label: "Copy" }, { value: 3, label: "Paste" }], root: winOverlay }) }) }),
+          Row({ label: "Alerts and sheets", sub: "elevation: 3", trailing: Button({ label: "Show alert", onClick: () => showGlassAlert({ title: "Glass alert", message: "Blurred, tinted and lifted with elevation 3.", primaryLabel: "OK" }) }) }),
+          Row({ label: "Tooltips", sub: "elevation: 1, blur: 16", trailing: tipBtn }),
+        ] }),
+        Section({ title: "GlassPressable", rows: [h("div", { class: "block caption", style: { fontSize: "12px" } }, "The building block behind every control here: it tracks hover and press so you can make your own glass controls.")],
+          code: `GlassPressable(
+  onPressed: onTap,
+  builder: (context, hovered, pressed) => GlassSurface(
+    tint: pressed
+        ? GlassTheme.of(context).controlFillPressed
+        : hovered ? GlassTheme.of(context).controlFillHover : null,
+    child: const Padding(
+      padding: EdgeInsets.all(8),
+      child: Icon(CupertinoIcons.heart),
+    ),
+  ),
+)` }),
+      ],
+    });
+  },
+
+  feedback() {
+    let syncStatus;
+    const syncBtn = h("button", { class: "gbtn bezel", type: "button" }, "Sync now");
+    syncBtn.addEventListener("click", () => {
+      syncBtn.disabled = true;
+      syncBtn.replaceChildren(Spinner(7), "Syncing…");
+      syncStatus.textContent = "Working…";
+      setTimeout(() => { syncBtn.disabled = false; syncBtn.replaceChildren("Sync now"); syncStatus.innerHTML = `Synced at <b>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</b>`; }, 1600);
+    });
+    const s = Section({ title: "GlassSpinner", rows: [
+      Row({ label: "Sizes", sub: "radius: 7 · 10 (default) · 14 · 20", trailing: [Spinner(7), Spinner(10), Spinner(14), Spinner(20)] }),
+      Row({ label: "In a button", trailing: syncBtn }),
+    ], footer: "Press Sync now.",
+      code: `const GlassSpinner()            // radius: 10
+const GlassSpinner(radius: 14)` });
+    syncStatus = s.foot; syncStatus.classList.add("status");
+    return Page({
+      title: "Feedback",
+      body: [
+        s,
+        Section({ title: "GlassTooltip", rows: [
+          Row({ label: "Icon button", sub: "Hover for a moment (650 ms). On touch, press and hold.", trailing: Tooltip(IconButton({ name: "question", label: "Help" }), "Hello from macos_glass") }),
+          Row({ label: "Button", trailing: Tooltip(Button({ label: "Export…" }), "Saves a copy as PDF") }),
+        ], code: `GlassTooltip(
+  message: 'Hello from macos_glass',
+  child: GlassIconButton(
+    icon: CupertinoIcons.question_circle,
+    onPressed: () {},
+  ),
+)` }),
+      ],
+    });
+  },
+
+  theme() {
+    const LIGHT = { canvas: "FFF2F2F4", sidebarTint: "66FFFFFF", card: "FFFFFFFF", cardBorder: "0F000000", divider: "14000000", label: "E6000000", secondaryLabel: "85000000", tertiaryLabel: "47000000", controlFill: "0F000000", controlFillHover: "17000000", controlFillPressed: "24000000", fieldFill: "FFFFFFFF", fieldBorder: "1F000000", glassTint: "B3FFFFFF", glassBorder: "1A000000", glassHighlight: "CCFFFFFF", menuTint: "D9F6F6F6", hover: "0D000000", shadow: "26000000", destructive: "FFFF3B30", success: "FF28A745", warning: "FFFF9500" };
+    const DARK = { canvas: "FF232323", sidebarTint: "14FFFFFF", card: "FF2C2C2D", cardBorder: "0FFFFFFF", divider: "14FFFFFF", label: "F2FFFFFF", secondaryLabel: "8CFFFFFF", tertiaryLabel: "52FFFFFF", controlFill: "24FFFFFF", controlFillHover: "2EFFFFFF", controlFillPressed: "3DFFFFFF", fieldFill: "33000000", fieldBorder: "1FFFFFFF", glassTint: "2EFFFFFF", glassBorder: "24FFFFFF", glassHighlight: "33FFFFFF", menuTint: "D92A2A2C", hover: "12FFFFFF", shadow: "66000000", destructive: "FFFF453A", success: "FF32D74B", warning: "FFFF9F0A" };
+    const css = argb => `rgba(${parseInt(argb.slice(2, 4), 16)},${parseInt(argb.slice(4, 6), 16)},${parseInt(argb.slice(6, 8), 16)},${(parseInt(argb.slice(0, 2), 16) / 255).toFixed(3)})`;
+    const mode = Segmented({ label: "Appearance", value: theme.mode, segments: [{ value: "system", label: "System" }, { value: "light", label: "Light" }, { value: "dark", label: "Dark" }], onChange: v => setTheme({ mode: v }) });
+    const sw = h("div", { class: "swatches", role: "radiogroup", "aria-label": "Accent colour" });
+    const swBtns = ACCENTS.map(a => { const b = h("button", { class: "swatch", type: "button", role: "radio", title: a.name, "aria-label": a.name, onclick: () => setTheme({ accent: a.id }) }); sw.append(b); return [a, b]; });
+    const accentName = h("span", { class: "caption" });
+    const code = CodeBlock("");
+    const tokGroup = Section({ title: "Colour tokens", rows: [], footer: "GlassTheme.of(context).<token> — values for the current appearance." });
+    onTheme(() => {
+      mode.set(theme.mode);
+      swBtns.forEach(([a, b]) => { b.style.setProperty("--sc", isDark() ? a.dark : a.light); b.setAttribute("aria-checked", String(a.id === theme.accent)); });
+      const a = ACCENTS.find(x => x.id === theme.accent) || ACCENTS[0];
+      accentName.textContent = a.name;
+      const hex = (isDark() ? a.dark : a.light).slice(1).toUpperCase();
+      const modeArg = { system: "GlassThemeMode.system", light: "GlassThemeMode.light", dark: "GlassThemeMode.dark" }[theme.mode];
+      code.update(`GlassApp(
+  title: 'My App',
+  themeMode: ${modeArg},${a.id === "blue" ? "\n  // accent: defaults to the system blue" : `\n  accent: const Color(0xFF${hex}),`}
+  home: const HomeWindow(),
+)
+
+// Anywhere below it:
+final t = GlassTheme.of(context);
+Text('Hello', style: t.title.copyWith(color: t.accent));`);
+      const map = isDark() ? DARK : LIGHT;
+      tokGroup.group.replaceChildren(
+        h("div", { class: "tok" }, h("span", { class: "sw", style: { "--v": "var(--accent)" } }), h("span", { class: "nm mono" }, "accent"), h("span", { class: "hx mono" }, "0xFF" + hex)),
+        ...Object.entries(map).map(([k, v]) => h("div", { class: "tok" }, h("span", { class: "sw", style: { "--v": css(v) } }), h("span", { class: "nm mono" }, k), h("span", { class: "hx mono" }, "0x" + v))));
+    });
+    const typo = [["largeTitle", 22, 700, "Keyboard"], ["title", 15, 700, "Sharing"], ["sectionTitle", 13, 700, "Text Input"], ["headline", 13, 600, "Delete “Invoice 42”?"], ["body", 13, 400, "Use keyboard navigation to move focus."], ["callout", 12, 400, "Segmented labels and callouts"], ["caption", 11, 400, "Footers and descriptions"]];
+    return Page({
+      title: "Theme",
+      body: [
+        Section({ title: "Appearance", rows: [
+          Row({ label: "Theme mode", sub: "GlassApp(themeMode:)", trailing: mode }),
+          Row({ label: "Accent colour", sub: accentName, trailing: sw }),
+          h("div", { class: "block" }, code),
+        ], footer: "Changes here restyle the whole site, just as they would your app." }),
+        Section({ title: "Text styles", rows: typo.map(([n, sz, w, sample]) => Row({ label: h("span", { style: { fontSize: sz + "px", fontWeight: w, letterSpacing: sz >= 20 ? "-.4px" : sz >= 15 ? "-.2px" : "0", color: n === "caption" ? "var(--label2)" : "var(--label)" } }, sample), trailing: h("span", { class: "caption mono" }, `${n} · ${sz} · w${w}`) })) }),
+        tokGroup,
+      ],
+    });
+  },
+
+  window() {
+    return Page({
+      title: "Window",
+      body: [
+        Section({ title: "Anatomy", rows: [h("div", { class: "anat", "aria-label": "Diagram of a GlassWindow" },
+          h("div", { class: "a-side" },
+            h("div", { style: { display: "flex", gap: "5px", marginBottom: "18px" } }, ["#FF5F57", "#FEBC2E", "#28C840"].map(c => h("span", { style: { width: "8px", height: "8px", borderRadius: "50%", background: c } }))),
+            h("div", { class: "lab" }, "GlassSidebar"), h("div", { class: "caption", style: { marginTop: "4px" } }, "native vibrancy + sidebarTint"),
+            h("div", { class: "bar", style: { marginTop: "14px", width: "80%" } }), h("div", { class: "bar", style: { marginTop: "6px", width: "65%" } }), h("div", { class: "bar", style: { marginTop: "6px", width: "72%" } })),
+          h("div", { class: "a-main" },
+            h("div", { class: "a-band" }, h("span", { class: "lab" }, "title bar band · kGlassTitlebarHeight = 52"), h("span", { class: "fill" }), h("span", { class: "chip" }, "actions")),
+            h("div", { class: "a-body" }, h("span", { class: "lab" }, "GlassPage → body"), h("div", { class: "bar", style: { width: "90%" } }), h("div", { class: "bar", style: { width: "70%" } }), h("div", { class: "bar", style: { width: "80%" } }))))],
+          footer: "This site is laid out the same way: drag the window by its title bar, double-click it to zoom, and try the traffic lights." }),
+        Section({ title: "GlassWindowConfig", rows: [
+          Row({ label: "apply()", sub: "Call once in main() before runApp. Full-size content view, transparent unified title bar, sidebar blur material. A no-op on other platforms." }),
+          Row({ label: "minSize", sub: "Smallest window size.", trailing: h("span", { class: "mono caption" }, "Size(900, 600)") }),
+          Row({ label: "hideToolbarInFullScreen", sub: "Removes the toolbar in full screen.", trailing: h("span", { class: "mono caption" }, "true") }),
+        ], code: `Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await const GlassWindowConfig(
+    minSize: Size(900, 600),
+    hideToolbarInFullScreen: true,
+  ).apply();
+  runApp(const MyApp());
+}` }),
+        Section({ title: "GlassWindow, GlassSidebar and GlassPage", rows: [
+          Row({ label: "Sidebar search", sub: "Type in this window's search field. Return opens the first match.", trailing: Button({ label: "Try it", size: "small", onClick: () => { const i = $("#sb-search input"); if (matchMedia("(max-width: 760px)").matches) go(""); setTimeout(() => i.focus(), 50); } }) }),
+          Row({ label: "Back button", sub: "GlassPage shows one when the navigator can pop (showBackButton overrides)." }),
+          Row({ label: "Title bar actions", sub: "Wrapped in GlassTitlebarPassthrough so they get clicks while empty space still drags the window." }),
+        ], code: `GlassWindow(
+  sidebarWidth: 240,
+  sidebar: GlassSidebar(
+    selectedIndex: index,
+    onSelect: (i) => setState(() => index = i),
+    items: const [
+      GlassSidebarItem(icon: CupertinoIcons.share, label: 'Sharing'),
+      GlassSidebarItem(
+        icon: CupertinoIcons.slider_horizontal_3,
+        label: 'Controls',
+        color: Color(0xFF0A84FF),
+      ),
+    ],
+  ),
+  child: GlassPage(
+    title: 'Controls',
+    actions: [
+      GlassButton(style: GlassButtonStyle.glass, onPressed: share, child: const Text('Share')),
+      GlassButton(style: GlassButtonStyle.primary, onPressed: save, child: const Text('Save')),
+    ],
+    body: ListView(children: [/* GlassFormSection … */]),
+  ),
+)
+
+// Your own widget in the title bar band:
+GlassTitlebarPassthrough(child: mySearchField)` }),
+        Section({ title: "GlassIcons", rows: [Row({ label: "Glyphs the package uses", sub: "check, chevronUpDown, chevronLeft, chevronRight, search, clear, warning, info", trailing: ["check", "chevUD", "chevL", "chevR", "search", "info"].map(n => h("span", { style: { color: "var(--label2)", display: "flex" } }, icon(n, 16))) })],
+          code: `Icon(GlassIcons.search, size: 14)` }),
+      ],
+    });
+  },
+};
+
+/* =====================================================================
+   Window, sidebar, routing
+   ===================================================================== */
+const content = $("#content");
+const built = {};
+const sbRows = {};
+let current = null;
+const mobileMq = matchMedia("(max-width: 760px)");
+
+// Sidebar search (GlassSidebar filters as you type; Return opens the first match)
+let visible = NAV.map(n => n.id);
+const search = TextField({ placeholder: "Search", capsule: true, prefixIcon: "search",
+  onInput: v => {
+    const q = v.trim().toLowerCase();
+    visible = NAV.filter(n => !q || n.label.toLowerCase().includes(q)).map(n => n.id);
+    NAV.forEach(n => (sbRows[n.id].hidden = !visible.includes(n.id)));
+    empty.hidden = visible.length > 0;
+  },
+  onEnter: () => visible.length && go(visible[0]) });
+$("#sb-search").append(search);
+const list = $("#sb-list");
+NAV.forEach(n => {
+  const row = h("button", { class: "sb-row", type: "button", onclick: () => go(n.id) }, IconTile(n.icon, n.color, 22), h("span", {}, n.label), h("span", { class: "chev" }, icon("chevR", 12, 2.4)));
+  sbRows[n.id] = row; list.append(row);
+});
+const empty = h("div", { class: "sb-empty", hidden: true }, "No results");
+list.append(empty);
+
+function go(id) { const next = id ? "#/" + id : "#/"; if (location.hash !== next) location.hash = next; else route(); }
+function route() {
+  let id = location.hash.replace(/^#\/?/, "");
+  if (!PAGES[id]) id = "";
+  const phone = mobileMq.matches;
+  const show = id || (phone ? "" : "overview");
+  winEl.classList.toggle("show-page", !!id && phone);
+  if (!show) { Object.values(sbRows).forEach(r => r.removeAttribute("aria-current")); return; }
+  if (!built[show]) { built[show] = PAGES[show](); content.append(built[show]); }
+  if (current && current !== built[show]) current.classList.remove("on");
+  current = built[show]; current.classList.add("on");
+  Object.entries(sbRows).forEach(([k, r]) => (k === show ? r.setAttribute("aria-current", "page") : r.removeAttribute("aria-current")));
+  document.title = (show === "overview" ? "macos_glass – Liquid Glass widgets for Flutter" : `${NAV.find(n => n.id === show).label} · macos_glass`);
+}
+addEventListener("hashchange", route);
+mobileMq.addEventListener("change", () => { route(); placeWindow(); });
+
+/* ---- window geometry: drag, resize, zoom, minimize, close ---- */
+const MB = 28, DOCK = 84;
+let geom = null, zoomed = false, saved = null;
+const area = () => ({ x: 0, y: MB, w: innerWidth, h: innerHeight - MB - DOCK });
+function setGeom(g) { geom = g; Object.assign(winEl.style, { left: g.x + "px", top: g.y + "px", width: g.w + "px", height: g.h + "px" }); }
+function placeWindow() {
+  if (mobileMq.matches) return;
+  const a = area();
+  if (zoomed) return setGeom({ x: 8, y: a.y + 8, w: a.w - 16, h: a.h - 8 });
+  if (!geom) {
+    const w = Math.min(1080, a.w - 64), hh = Math.min(720, a.h - 24);
+    return setGeom({ x: Math.round((a.w - w) / 2), y: Math.round(a.y + Math.max(10, (a.h - hh) / 2)), w, h: hh });
+  }
+  const w = Math.min(geom.w, a.w - 16), hh = Math.min(geom.h, a.h - 8);
+  setGeom({ w, h: hh, x: Math.min(Math.max(geom.x, -w + 120), a.w - 120), y: Math.min(Math.max(geom.y, MB), innerHeight - 60) });
+}
+addEventListener("resize", placeWindow);
+function toggleZoom() {
+  if (mobileMq.matches) return;
+  winEl.classList.add("animating");
+  if (!zoomed) { saved = geom; zoomed = true; placeWindow(); }
+  else { zoomed = false; setGeom(saved); }
+  setTimeout(() => winEl.classList.remove("animating"), 280);
+}
+winEl.addEventListener("pointerdown", e => {
+  const band = e.target.closest("[data-drag]");
+  if (!band || mobileMq.matches || e.button !== 0 || e.target.closest("button,input,textarea,a,[role=switch],.gseg")) return;
+  const sx = e.clientX, sy = e.clientY, g0 = { ...geom };
+  band.setPointerCapture(e.pointerId);
+  const move = ev => { zoomed = false; setGeom({ ...g0, x: g0.x + ev.clientX - sx, y: Math.max(MB, g0.y + ev.clientY - sy) }); };
+  const up = () => { band.removeEventListener("pointermove", move); band.removeEventListener("pointerup", up); };
+  band.addEventListener("pointermove", move); band.addEventListener("pointerup", up);
+});
+winEl.addEventListener("dblclick", e => { if (e.target.closest("[data-drag]") && !e.target.closest("button,input,.gseg")) toggleZoom(); });
+winEl.querySelectorAll("[data-rz]").forEach(handle => handle.addEventListener("pointerdown", e => {
+  const kind = handle.dataset.rz, sx = e.clientX, sy = e.clientY, g0 = { ...geom };
+  handle.setPointerCapture(e.pointerId);
+  const move = ev => { zoomed = false; setGeom({ ...g0, w: kind.includes("r") ? Math.max(720, g0.w + ev.clientX - sx) : g0.w, h: kind.includes("b") ? Math.max(520, g0.h + ev.clientY - sy) : g0.h }); };
+  const up = () => { handle.removeEventListener("pointermove", move); handle.removeEventListener("pointerup", up); };
+  handle.addEventListener("pointermove", move); handle.addEventListener("pointerup", up);
+}));
+[["close", "xmark"], ["min", "minus"], ["zoom", "arrowsOut"]].forEach(([a, n]) => $(`.light.${a}`).append(icon(n, 8, 3.2)));
+
+let winState = "open";
+function dockIconRect() { return $("#dock-gallery").getBoundingClientRect(); }
+function hideWindow(kind) {
+  if (winState !== "open") return;
+  const r = winEl.getBoundingClientRect();
+  const d0 = dockIconRect(), d = d0.width ? d0 : new DOMRect(innerWidth / 2, innerHeight, 0, 0);
+  winEl.classList.add("genie");
+  winEl.style.transformOrigin = `${d.left + d.width / 2 - r.left}px ${d.top - r.top}px`;
+  winEl.style.transform = "scale(.06)"; winEl.style.opacity = "0";
+  winState = kind;
+  setTimeout(() => { winEl.classList.add("hidden"); winEl.classList.remove("genie"); }, 380);
+  document.body.classList.remove("win-open");
+  $("#dock-gallery").classList.toggle("running", kind === "min");
+}
+function showWindow() {
+  if (winState === "open") { const g = $("#dock-gallery"); g.classList.remove("bounce"); void g.offsetWidth; g.classList.add("bounce"); return; }
+  winEl.classList.remove("hidden");
+  winEl.classList.add("genie");
+  requestAnimationFrame(() => { winEl.style.transform = ""; winEl.style.opacity = ""; });
+  setTimeout(() => winEl.classList.remove("genie"), 400);
+  winState = "open";
+  document.body.classList.add("win-open");
+  $("#dock-gallery").classList.add("running");
+}
+$("#lights").addEventListener("click", e => {
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (act === "close") hideWindow("closed");
+  if (act === "min") hideWindow("min");
+  if (act === "zoom") toggleZoom();
+});
+
+/* ---- Dock ---- */
+const dock = $("#dock");
+const DOCK_ITEMS = [
+  { id: "dock-gallery", name: "macos_glass Gallery", icon: "sliders", color: "#007AFF", run: showWindow },
+  { id: "dock-docs", name: "API Reference", icon: "book", color: "#FF9F0A", run: () => open(LINKS.docs) },
+  { id: "dock-pub", name: "pub.dev", icon: "box", color: "#0EA5C6", run: () => open(LINKS.pub) },
+  { id: "dock-gh", name: "Source on GitHub", icon: "code", color: "#3A3A3C", run: () => open(LINKS.github) },
+  { sep: true },
+  { id: "dock-trash", name: "Trash", icon: "trash", color: "#AEAEB2", run: () => showGlassAlert({ root: deskOverlay, title: "Empty the Trash?", message: "Items in the Trash will be deleted immediately. (It's a demo — nothing will be deleted.)", primaryLabel: "Empty Trash", secondaryLabel: "Cancel", destructive: true, iconTile: IconTile("trash", "#FF453A", 44) }) },
+];
+DOCK_ITEMS.forEach(it => {
+  if (it.sep) return dock.append(h("div", { class: "dock-sep" }));
+  const tile = IconTile(it.icon, it.color, 50);
+  tile.style.width = tile.style.height = "100%"; tile.style.borderRadius = "26%";
+  tile.firstChild.setAttribute("width", "58%"); tile.firstChild.setAttribute("height", "58%");
+  dock.append(h("button", { class: "dock-item" + (it.id === "dock-gallery" ? " running" : ""), id: it.id, type: "button", "aria-label": it.name, onclick: it.run }, tile, h("span", { class: "tip" }, it.name), h("span", { class: "dot" })));
+});
+const dockItems = [...dock.querySelectorAll(".dock-item")];
+dock.addEventListener("pointermove", e => {
+  if (e.pointerType !== "mouse") return;
+  dock.classList.add("tracking");
+  dockItems.forEach(it => {
+    const r = it.getBoundingClientRect();
+    const d = Math.abs(e.clientX - (r.left + r.width / 2));
+    const s = 50 * (1 + 0.42 * Math.max(0, 1 - d / 120));
+    it.style.width = it.style.height = s + "px";
+  });
+});
+dock.addEventListener("pointerleave", () => { dock.classList.remove("tracking"); dockItems.forEach(it => (it.style.width = it.style.height = "")); });
+
+/* ---- Menu bar ---- */
+$("#mb-logo").append(icon("drop", 15, 2.4));
+const MENUS = {
+  app: () => [{ value: "about", label: "About macos_glass" }, { separator: true }, { value: "pub", label: "Open on pub.dev" }, { value: "gh", label: "Open on GitHub" }],
+  file: () => [{ value: "folder", label: "New Folder…" }, { value: "close", label: "Close Window", enabled: winState === "open" }],
+  view: () => [{ value: "light", label: "Light" }, { value: "dark", label: "Dark" }, { value: "system", label: "Match System" }, { separator: true }, { value: "accent", label: "Accent Colour…" }],
+  window: () => [{ value: "min", label: "Minimize", enabled: winState === "open" }, { value: "zoom", label: "Zoom", enabled: winState === "open" && !mobileMq.matches }, { separator: true }, { value: "show", label: "macos_glass Gallery" }],
+  help: () => [{ value: "docs", label: "API Reference" }, { value: "changelog", label: "Changelog" }, { value: "issue", label: "Report an Issue…" }],
+};
+function runMenu(v) {
+  ({
+    about: () => showGlassAlert({ root: deskOverlay, title: "macos_glass " + VERSION, message: "macOS 26 Liquid Glass widgets for Flutter desktop. MIT © 2026 Mostafijur Rahman.", primaryLabel: "OK", iconTile: IconTile("drop", "var(--accent)", 52) }),
+    pub: () => open(LINKS.pub), gh: () => open(LINKS.github), docs: () => open(LINKS.docs), changelog: () => open(LINKS.changelog), issue: () => open(LINKS.issues),
+    folder: () => { showWindow(); go("dialogs"); setTimeout(() => built.dialogs.querySelectorAll(".gsec")[1].querySelector("button.gbtn:not(.plain)").click(), 120); },
+    close: () => hideWindow("closed"), min: () => hideWindow("min"), zoom: toggleZoom, show: showWindow,
+    light: () => setTheme({ mode: "light" }), dark: () => setTheme({ mode: "dark" }), system: () => setTheme({ mode: "system" }),
+    accent: () => { showWindow(); go("theme"); },
+  }[v] || (() => {}))();
+}
+let openMenu = null;
+async function openMenubar(btn) {
+  if (openMenu) openMenu.p.close(null);
+  btn.classList.add("open");
+  const r = btn.getBoundingClientRect();
+  const isView = btn.dataset.menu === "view";
+  const p = showGlassMenu({ anchor: new DOMRect(r.left, r.top, 200, r.height), items: MENUS[btn.dataset.menu](), root: deskOverlay, minWidth: 200, hasSelection: isView, selected: isView ? theme.mode : undefined });
+  openMenu = { p, btn };
+  const res = await p;
+  btn.classList.remove("open");
+  if (openMenu && openMenu.p === p) openMenu = null;
+  if (res) runMenu(res.value);
+}
+document.querySelectorAll("[data-menu]").forEach(btn => {
+  btn.addEventListener("pointerdown", e => { e.preventDefault(); if (openMenu && openMenu.btn === btn) { openMenu.p.close(null); return; } openMenubar(btn); });
+  btn.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") { e.preventDefault(); openMenubar(btn); } });
+  btn.addEventListener("pointerenter", () => { if (openMenu && openMenu.btn !== btn) openMenubar(btn); });
+});
+// While a menu is open, its layer covers the menu bar; let hovering other titles switch menus.
+deskOverlay.addEventListener("pointermove", e => {
+  if (!openMenu || e.clientY > MB) return;
+  const t = [...document.querySelectorAll("[data-menu]")].find(b => { const r = b.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right; });
+  if (t && t !== openMenu.btn) openMenubar(t);
+});
+const themeBtn = $("#mb-theme");
+themeBtn.addEventListener("click", () => setTheme({ mode: { system: "light", light: "dark", dark: "system" }[theme.mode] }));
+themeSubs.add(() => { themeBtn.replaceChildren(icon({ system: "half", light: "sun", dark: "moon" }[theme.mode], 15, 2)); themeBtn.title = `Appearance: ${{ system: "Match System", light: "Light", dark: "Dark" }[theme.mode]} (click to change)`; });
+const clock = $("#mb-clock");
+const tick = () => {
+  const d = new Date();
+  const small = innerWidth < 520;
+  clock.textContent = small ? d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+    : d.toLocaleDateString([], { weekday: "short", day: "numeric", month: "short" }) + "  " + d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+};
+tick(); setInterval(tick, 15000);
+
+function open(url) { window.open(url, "_blank", "noopener"); }
+
+/* ---- start ---- */
+applyTheme();
+placeWindow();
+document.body.classList.add("win-open");
+route();
+</script>
+</body>
+</html>
